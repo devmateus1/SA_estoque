@@ -2,6 +2,7 @@
     session_start();
     require_once 'conexao.php';
     
+    
     // Verifica se o usuário já está logado
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
@@ -53,7 +54,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg,rgb(26, 39, 27) 0%,rgb(46, 148, 46) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
