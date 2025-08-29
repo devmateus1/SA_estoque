@@ -294,7 +294,7 @@
                     <input type="checkbox" name="lembrar">
                     <span>Lembrar de mim</span>
                 </label>
-                <a href="#" class="forgot-password">Esqueci minha senha</a>
+                <a href="recuperar_senha.php" class="forgot-password">Esqueci minha senha</a>
             </div>
             
             <button type="submit" class="login-button">
