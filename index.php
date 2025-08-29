@@ -17,7 +17,6 @@
         if ($usuario && password_verify($senha, $usuario['senha'])) {
             // Login bem-sucedido, define variáveis de sessão
             $_SESSION['usuario'] = $usuario['nome'];
-            $_SESSION['perfil'] = $usuario['id_perfil'];
             $_SESSION['id_usuario'] = $usuario['id_usuario'];
     
             // Veriifica se a senha é temporária
@@ -306,7 +305,7 @@
             </div>
             
             <div class="register-link">
-                Não tem uma conta? <a href="">Cadastre-se aqui</a>
+                Não tem uma conta? <a href="cadastro_usuario.php">Cadastre-se aqui</a>
             </div>
         </form>
         
