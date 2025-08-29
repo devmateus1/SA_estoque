@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            background: linear-gradient(135deg,rgb(26, 39, 27) 0%,rgb(46, 148, 46) 100%);
             min-height: 100vh;
             color: #333;
         }
@@ -58,13 +58,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem;">
             <!-- Logo/Brand -->
             <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem 0;">
-                <div style="background: linear-gradient(135deg, #2563eb, #1e40af); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <div style="background: linear-gradient(135deg,rgb(38, 92, 52),rgb(37, 129, 57)); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                     </svg>
                 </div>
-                <span style="font-size: 1.25rem; font-weight: 700; color: #1e293b;">BiblioSystem</span>
+                <span style="font-size: 1.25rem; font-weight: 700; color: #1e293b;">Estoque Biblioteca</span>
             </div>
 
             <!-- Menu Principal -->
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </svg>
                     </a>
                     <ul style="position: absolute; top: 100%; left: 0; background: white; min-width: 220px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); border-radius: 12px; padding: 0.5rem 0; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; border: 1px solid rgba(0, 0, 0, 0.1);">
-                        <li><a href="cadastro_livro.php" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; text-decoration: none; color: #4a5568; transition: all 0.2s ease;"
+                        <li><a href="cadastrar_produto.php" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; text-decoration: none; color: #4a5568; transition: all 0.2s ease;"
                                onmouseover="this.style.background='rgba(37, 99, 235, 0.1)'; this.style.color='#2563eb'"
                                onmouseout="this.style.background='transparent'; this.style.color='#4a5568'">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <polyline points="10,9 9,9 8,9"></polyline>
                             </svg>
                             Cadastrar Livro</a></li>
-                        <li><a href="estoque_livros.php" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; text-decoration: none; color: #4a5568; transition: all 0.2s ease;"
+                        <li><a href="listar_produtos.php" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; text-decoration: none; color: #4a5568; transition: all 0.2s ease;"
                                onmouseover="this.style.background='rgba(37, 99, 235, 0.1)'; this.style.color='#2563eb'"
                                onmouseout="this.style.background='transparent'; this.style.color='#4a5568'">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <!-- Relatórios -->
                 <li style="position: relative;">
-                    <a href="relatorios.php" style="display: flex; align-items: center; gap: 0.5rem; padding: 1.25rem 1.5rem; text-decoration: none; color: #4a5568; font-weight: 600; transition: all 0.3s ease; border-radius: 8px;"
+                    <a href="dashbord.php" style="display: flex; align-items: center; gap: 0.5rem; padding: 1.25rem 1.5rem; text-decoration: none; color: #4a5568; font-weight: 600; transition: all 0.3s ease; border-radius: 8px;"
                        onmouseover="this.style.color='#2563eb'; this.style.background='rgba(37, 99, 235, 0.1)'"
                        onmouseout="this.style.color='#4a5568'; this.style.background='transparent'">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <button style="display: flex; align-items: center; gap: 0.5rem; background: none; border: none; padding: 0.5rem; border-radius: 50px; cursor: pointer; transition: all 0.3s ease;"
                             onmouseover="this.style.background='rgba(37, 99, 235, 0.1)'"
                             onmouseout="this.style.background='transparent'">
-                        <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #2563eb, #1e40af); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 0.875rem;">
+                        <div style="width: 32px; height: 32px; background: linear-gradient(135deg,rgb(45, 109, 56),rgb(30, 175, 54)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 0.875rem;">
                             A
                         </div>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2">

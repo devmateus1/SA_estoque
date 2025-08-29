@@ -306,7 +306,7 @@
             </div>
             
             <div class="register-link">
-                Não tem uma conta? <a href="cadastro_usuario.php">Cadastre-se aqui</a>
+                Não tem uma conta? <a href="cadastrar_usuario.php">Cadastre-se aqui</a>
             </div>
         </form>
         
