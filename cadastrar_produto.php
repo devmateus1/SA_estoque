@@ -16,12 +16,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $qtde = $_POST['qtde'];
     $valor = $_POST['valor'];
 
-    $sql = "INSERT INTO produto (nome_prod, descricao, qtde, valor_unit) VALUES (:nome, :descricao, :qtde, :valor)";
+    $sql = "INSERT INTO produto (titulo, autor, editora, ano_publicacao, categoria, data_cadastro) VALUES (:titulo, :autor, :autor, :ano_publicacao, :categoria, :data_cadastro)";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':nome', $nome);
-    $stmt->bindParam(':descricao', $descricao);
-    $stmt->bindParam(':qtde', $qtde);
-    $stmt->bindParam(':valor', $valor);
+    $stmt->bindParam(':titulo', $titulo);
+    $stmt->bindParam(':autor', $autor);
+    $stmt->bindParam(':editora', $editora);
+    $stmt->bindParam(':ano_publicacao', $ano_publicacao);
+    $stmt->bindParam(':categoria', $categoria);
+    $stmt->bindParam(':data_cadastro', $data_cadastro);
 
     if ($stmt->execute()) {
         echo "<script>alert('Produto cadastrado com sucesso!');</script>";
@@ -40,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Produto</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -62,17 +63,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </nav>
             <h2 align="center">Cadastrar Produto</h2>
             <form action="cadastro_produto.php" method="POST" align="center">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required><br><br>
+                <label for="titulo">Tituo do livro:</label>
+                <input type="text" id="titulo" name="titulo" required><br><br>
                 
-                <label for="descricao">Descricao:</label>
-                <input type="text" id="descricao" name="descricao" required><br><br>
+                <label for="autor">Autor:</label>
+                <input type="text" id="autor" name="autor" required><br><br>
                 
-                <label for="qtde">Quantidade:</label>   
-                <input type="number" id="qtde" name="qtde" required onkeypress="mascara(this,valida_number)"><br><br>
+                <label for="editora">Editora:</label>   
+                <input type="text" id="editora" name="editora" required><br><br>
                 
-                <label for="valor">Valor:</label>
-                <input type="number" id="valor" name="valor" step="any" required><br><br>
+                <label for="ano_publicacao">Ano Da Publicacao:</label>
+                <input type="data" id="ano_publicacao" name="ano_publicacao" required><br><br>
+
+                <label for="categoria">Categoria:</label>
+                <input type="text" id="categoria" name="categoria" required><br><br>
+
+                <label for="data_cadastro">Data Cadastro:</label>
+                <input type="data" id="data_cadastro" name="data_cadastro" required><br><br>
                 
                 <button type="submit">Salvar</button>
                 <button type="reset">Cancelar</button>
