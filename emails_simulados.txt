@@ -18,3 +18,7 @@ Para: maria@empresa.com
 Olá! Sua nova senha temporária é: NCEAW3Ze
 
 ----------------------
+Para: sergio@sergio
+Olá! Sua nova senha temporária é: GQs0dNaR
+
+----------------------
