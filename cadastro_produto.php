@@ -1,21 +1,22 @@
 <?php
 session_start();
 
+// Conexão com o banco de dados
+try {
+    $pdo = new PDO('mysql:host=localhost;dbname=estoquebiblioteca', 'root', '');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die('Erro ao conectar ao banco de dados: ' . $e->getMessage());
+}
+
 // Verificar se o usuário está logado
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: login.php");
+if ($_SESSION['perfil']!= 1) {
+    echo "Acesso negado. ";
     exit();
 }
 
-// Verificar permissões (apenas Admin e Gerente podem cadastrar livros)
-$perfil_usuario = $_SESSION['perfil'] ?? '';
-if (!in_array($perfil_usuario, ['Admin', 'Gerente'])) {
-    echo "<script>alert('Acesso negado! Você não tem permissão para cadastrar livros.'); window.location.href='painel_principal.php';</script>";
-    exit();
-}
 
-$mensagem = '';
-$tipo_mensagem = '';
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $titulo = trim($_POST['titulo'] ?? '');
@@ -44,6 +45,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Limpar campos após sucesso
         $titulo = $autor = $isbn = $editora = $ano_publicacao = $categoria = '';
     }
+//Obtendo o nome do perfil do usuario logado 
+    $id_perfil = $_SESSION['perfil'];
+    $sqlPerfil = "SELECT nome_perfil FROM perfil WHERE id_perfil = :id_perfil";
+    $stmtPerfil = $pdo->prepare($sqlPerfil);
+    $stmtPerfil->bindParam(':id_perfil', $id_perfil);
+    $stmtPerfil->execute();
+    $perfil = $stmtPerfil->fetch(PDO::FETCH_ASSOC);
+    $nome_perfil = $perfil['nome_perfil'];
+    
+    
+    $permissoes = [
+        1=> ["Cadastrar"=>["cadastro_usuario.php", "cadastro_perfil.php", "cadastro_cliente.php", "cadastro_fornecedor.php", "cadastro_produto.php", "cadastro_funcionario.php"],
+            "Buscar"=>["buscar_usuario.php", "buscar_perfil.php", "buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php", "buscar_funcionario.php"],
+            "Alterar"=>["alterar_usuario.php", "alterar_perfil.php", "alterar_cliente.php", "alterar_fornecedor.php", "alterar_produto.php", "alterar_funcionario.php"],
+            "Excluir"=>["excluir_usuario.php", "excluir_perfil.php", "excluir_cliente.php", "excluir_fornecedor.php", "excluir_produto.php", "excluir_funcionario.php"]],
+    
+        2=> ["Cadastrar"=>["cadastro_cliente.php"],
+            "Buscar"=>["buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php"],
+            "Alterar"=>["alterar_cliente.php", "alterar_fornecedor.php"]],
+            
+        3=> ["Cadastrar"=>[ "cadastro_fornecedor.php", "cadastro_produto.php"],
+            "Buscar"=>[ "buscar_cliente.php", "buscar_fornecedor.php", "buscar_funcionario.php"],
+            "Alterar"=>[ "alterar_fornecedor.php", "alterar_produto.php"],
+            "Excluir"=>["excluir_produto.php"]],
+        
+        4=> ["Cadastrar"=>[ "cadastro_cliente.php"],
+            "Alterar"=>[ "alterar_cliente.php"]]
+    ];    
 }
 ?>
 
