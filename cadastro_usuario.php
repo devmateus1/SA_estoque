@@ -28,36 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<script>alert('Erro ao cadastrar usuário.');</script>";
     }
 }
-// Obtendo o nome do perfil do usuario logado 
-$id_perfil = $_SESSION['perfil'];
-$sqlPerfil = "SELECT nome_perfil FROM perfil WHERE id_perfil = :id_perfil";
-$stmtPerfil = $pdo->prepare($sqlPerfil);
-$stmtPerfil->bindParam(':id_perfil', $id_perfil);
-$stmtPerfil->execute();
-$perfil = $stmtPerfil->fetch(PDO::FETCH_ASSOC);
-$nome_perfil = $perfil['nome_perfil'];
 
-
-$permissoes = [
-    1=> ["Cadastrar"=>["cadastro_usuario.php", "cadastro_perfil.php", "cadastro_cliente.php", "cadastro_fornecedor.php", "cadastro_produto.php", "cadastro_funcionario.php"],
-        "Buscar"=>["buscar_usuario.php", "buscar_perfil.php", "buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php", "buscar_funcionario.php"],
-        "Alterar"=>["alterar_usuario.php", "alterar_perfil.php", "alterar_cliente.php", "alterar_fornecedor.php", "alterar_produto.php", "alterar_funcionario.php"],
-        "Excluir"=>["excluir_usuario.php", "excluir_perfil.php", "excluir_cliente.php", "excluir_fornecedor.php", "excluir_produto.php", "excluir_funcionario.php"]],
-
-    2=> ["Cadastrar"=>["cadastro_cliente.php"],
-        "Buscar"=>["buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php"],
-        "Alterar"=>["alterar_cliente.php", "alterar_fornecedor.php"]],
-        
-    3=> ["Cadastrar"=>[ "cadastro_fornecedor.php", "cadastro_produto.php"],
-        "Buscar"=>[ "buscar_cliente.php", "buscar_fornecedor.php", "buscar_funcionario.php"],
-        "Alterar"=>[ "alterar_fornecedor.php", "alterar_produto.php"],
-        "Excluir"=>["excluir_produto.php"]],
-    
-    4=> ["Cadastrar"=>[ "cadastro_cliente.php"],
-        "Alterar"=>[ "alterar_cliente.php"]]
-];
-
-$opcoes_menu = $permissoes[$id_perfil]; 
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -69,32 +40,39 @@ $opcoes_menu = $permissoes[$id_perfil];
 <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%); min-height: 100vh; color: #ffffff;">
 
 <!-- Adicionando CSS inline para navegação azul marinho -->
-<nav style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 15px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 2px solid rgba(59, 130, 246, 0.3);">
-    <ul class="menu" style="list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
-        <?php foreach($opcoes_menu as $categoria=>$arquivos): ?>
-        <li class="dropdown" style="position: relative;">
-            <a href="#" style="color: #ffffff; text-decoration: none; padding: 12px 20px; display: block; font-weight: 600; font-size: 16px; border-radius: 8px; transition: all 0.3s ease; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.3);" 
-               onmouseover="this.style.background='rgba(59, 130, 246, 0.4)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.3)';" 
-               onmouseout="this.style.background='rgba(59, 130, 246, 0.2)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-               <?php echo $categoria; ?>
-            </a>
-            <ul class="dropdown-menu" style="position: absolute; top: 100%; left: 0; background: rgba(30, 58, 138, 0.98); backdrop-filter: blur(15px); list-style: none; padding: 10px 0; margin: 0; min-width: 220px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); border: 1px solid rgba(59, 130, 246, 0.3); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000;"
-                onmouseenter="this.style.opacity='1'; this.style.visibility='visible'; this.style.transform='translateY(0)';"
-                onmouseleave="this.style.opacity='0'; this.style.visibility='hidden'; this.style.transform='translateY(-10px)';">
-                <?php foreach($arquivos as $arquivo):?>
-                <li>
-                    <a href="<?=$arquivo ?>" style="color: #e5e7eb; text-decoration: none; padding: 12px 20px; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 0 8px;"
-                       onmouseover="this.style.background='rgba(59, 130, 246, 0.3)'; this.style.color='#ffffff'; this.style.paddingLeft='24px';"
-                       onmouseout="this.style.background='transparent'; this.style.color='#e5e7eb'; this.style.paddingLeft='20px';">
-                       <?= ucfirst(str_replace("_", " ",basename ($arquivo, ".php")))?>
-                    </a>
-                </li>
-                <?php endforeach; ?> 
-            </ul>
-        </li>
-        <?php endforeach; ?>
-    </ul>
-</nav>
+<header style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <nav style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h1 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+                📚 Sistema de Biblioteca
+            </h1>
+            
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <!-- Menu Dropdown -->
+                <div style="position: relative; display: inline-block;">
+                    <button onclick="toggleDropdown()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                        📋 Menu ▼
+                    </button>
+                    <div id="dropdown" style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
+                        <?php if (in_array($perfil_usuario, ['Admin', 'Gerente'])): ?>
+                            <a href="cadastrar_usuario.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">👤 Cadastrar Usuário</a>
+                            <a href="cadastrar_livro.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(59, 130, 246, 0.1);">📚 Cadastrar Livro</a>
+                        <?php endif; ?>
+                        <?php if ($perfil_usuario === 'Admin'): ?>
+                            <a href="buscar_usuario.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🔍 Buscar Usuário</a>
+                            <a href="excluir_usuario.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🗑️ Excluir Usuário</a>
+                        <?php endif; ?>
+                        <a href="buscar_livro.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📖 Buscar Livro</a>
+                        <a href="painel_principal.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠 Painel Principal</a>
+                    </div>
+                </div>
+                
+                <!-- Logout -->
+                <a href="logout.php" style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
+                    🚪 Sair
+                </a>
+            </div>
+        </nav>
+    </header>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

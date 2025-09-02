@@ -7,35 +7,6 @@ if ($_SESSION['perfil'] != 1) {
     exit();
 }
 
-$id_perfil = $_SESSION['perfil'];
-$sqlPerfil = "SELECT nome_perfil FROM perfil WHERE id_perfil = :id_perfil";
-$stmtPerfil = $pdo->prepare($sqlPerfil);
-$stmtPerfil->bindParam(':id_perfil', $id_perfil);
-$stmtPerfil->execute();
-$perfil = $stmtPerfil->fetch(PDO::FETCH_ASSOC);
-$nome_perfil = $perfil['nome_perfil'];
-
-$permissoes = [
-    1=> ["Cadastrar"=>["cadastro_usuario.php", "cadastro_cliente.php", "cadastro_fornecedor.php", "cadastro_produto.php", "cadastro_funcionario.php"],
-        "Buscar"=>["buscar_usuario.php",  "buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php", "buscar_funcionario.php"],
-        "Alterar"=>["alterar_usuario.php",  "alterar_cliente.php", "alterar_fornecedor.php", "alterar_produto.php", "alterar_funcionario.php"],
-        "Excluir"=>["excluir_usuario.php", "excluir_cliente.php", "excluir_fornecedor.php", "excluir_produto.php", "excluir_funcionario.php"]],
-
-    2=> ["Cadastrar"=>["cadastro_cliente.php"],
-        "Buscar"=>["buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php"],
-        "Alterar"=>["alterar_cliente.php", "alterar_fornecedor.php"]],
-        
-    3=> ["Cadastrar"=>[ "cadastro_fornecedor.php", "cadastro_produto.php"],
-        "Buscar"=>[ "buscar_cliente.php", "buscar_fornecedor.php", "buscar_funcionario.php"],
-        "Alterar"=>[ "alterar_fornecedor.php", "alterar_produto.php"],
-        "Excluir"=>["excluir_produto.php"]],
-    
-    4=> ["Cadastrar"=>[ "cadastro_cliente.php"],
-        "Alterar"=>[ "alterar_cliente.php"]]
-];
-
-$opcoes_menu = $permissoes[$id_perfil]; 
-
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $nome_funcionario = $_POST['nome_funcionario'];
     $endereco = $_POST['endereco'];
@@ -275,22 +246,39 @@ if ($_SERVER["REQUEST_METHOD"]=="POST"){
     </style>
 </head>
 <body>
-<nav>
-    <ul class="menu">
-        <?php foreach($opcoes_menu as $categoria=>$arquivos): ?>
-        <li class="dropdown">
-                <a href="#"><?php echo $categoria; ?></a>
-                <ul class="dropdown-menu">
-                <?php foreach($arquivos as $arquivo):?>
-                    <li>
-                        <a href="<?php echo htmlspecialchars($arquivo); ?>"> <?= ucfirst(str_replace("_", " ",basename ($arquivo, ".php")))?></a>
-                    </li>
-                    <?php endforeach; ?> 
-                </ul>
-        </li>
-        <?php endforeach; ?>
-    </ul>
- </nav>
+<header style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <nav style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h1 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+                📚 Sistema de Biblioteca
+            </h1>
+            
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <!-- Menu Dropdown -->
+                <div style="position: relative; display: inline-block;">
+                    <button onclick="toggleDropdown()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                        📋 Menu ▼
+                    </button>
+                    <div id="dropdown" style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
+                        <?php if (in_array($perfil_usuario, ['Admin', 'Gerente'])): ?>
+                            <a href="cadastrar_usuario.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">👤 Cadastrar Usuário</a>
+                            <a href="cadastrar_livro.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(59, 130, 246, 0.1);">📚 Cadastrar Livro</a>
+                        <?php endif; ?>
+                        <?php if ($perfil_usuario === 'Admin'): ?>
+                            <a href="buscar_usuario.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🔍 Buscar Usuário</a>
+                            <a href="excluir_usuario.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🗑️ Excluir Usuário</a>
+                        <?php endif; ?>
+                        <a href="buscar_livro.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📖 Buscar Livro</a>
+                        <a href="painel_principal.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠 Painel Principal</a>
+                    </div>
+                </div>
+                
+                <!-- Logout -->
+                <a href="logout.php" style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
+                    🚪 Sair
+                </a>
+            </div>
+        </nav>
+    </header>
 
  <h2>Cadastrar Funcionário</h2>
 
