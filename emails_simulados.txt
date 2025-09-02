@@ -30,3 +30,7 @@ Para: sergio@sergio
 Olá! Sua nova senha temporária é: MHtLXWua
 
 ----------------------
+Para: admin@admin
+Olá! Sua nova senha temporária é: jcERKzSe
+
+----------------------

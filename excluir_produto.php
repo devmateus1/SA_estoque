@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require_once 'conexao.php';
 // Conexão com o banco de dados
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=estoquebiblioteca', 'root', '');
@@ -10,7 +10,8 @@ try {
 }
 
 // Verificar se o usuário está logado
-if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] < 1) {
+
+if ($_SESSION['perfil']!= 1) {
     echo "Acesso negado. ";
     exit();
 }
@@ -23,9 +24,9 @@ $livro = null;
 if (isset($_GET['id']) && isset($_GET['confirmar'])) {
     $id = $_GET['id'];
     try {
-        $sql = "DELETE FROM produtos WHERE id = :id";
+        $sql = "DELETE FROM produto WHERE id_produto = :id_produto";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id_produto', $id_produto);
         $stmt->execute();
         
         $mensagem = 'Livro excluído com sucesso!';
@@ -37,9 +38,9 @@ if (isset($_GET['id']) && isset($_GET['confirmar'])) {
 }
 
 // Buscar livro para confirmação
-if (isset($_GET['id']) && !isset($_GET['confirmar'])) {
-    $id = $_GET['id'];
-    $sql = "SELECT * FROM produtos WHERE id = :id";
+if (isset($_GET['id_produto']) && !isset($_GET['confirmar'])) {
+    $id = $_GET['id_produto'];
+    $sql = "SELECT * FROM produto WHERE id_produto = :id_produto";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id', $id);
     $stmt->execute();

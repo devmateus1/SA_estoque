@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require_once 'conexao.php';
 // Conexão com o banco de dados
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=estoquebiblioteca', 'root', '');
@@ -9,11 +9,11 @@ try {
     die('Erro ao conectar ao banco de dados: ' . $e->getMessage());
 }
 
-// Verificar se o usuário está logado
-if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] < 1) {
+if ($_SESSION['perfil']!= 1) {
     echo "Acesso negado. ";
     exit();
 }
+
 
 // Buscar todos os livros
 $sql = "SELECT * FROM produto ORDER BY titulo ASC";

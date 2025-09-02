@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require_once 'conexao.php';
 // Conexão com o banco de dados
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=estoquebiblioteca', 'root', '');
@@ -9,28 +9,25 @@ try {
     die('Erro ao conectar ao banco de dados: ' . $e->getMessage());
 }
 
-// Verificar se o usuário está logado
-if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] < 1) {
+if ($_SESSION['perfil']!= 1) {
     echo "Acesso negado. ";
     exit();
 }
 
-$mensagem = '';
-$tipo_mensagem = '';
-$livro = null;
+
 
 // Buscar livro para edição
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $sql = "SELECT * FROM produtos WHERE id = :id";
+    $sql = "SELECT * FROM produto WHERE id_produto = :id_produto";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':id_produto', $id_produto);
     $stmt->execute();
     $livro = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if (!$livro) {
-        $mensagem = 'Livro não encontrado!';
-        $tipo_mensagem = 'erro';
+        echo 'Livro não encontrado!';
+        echo 'erro';
     }
 }
 
@@ -56,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
         $tipo_mensagem = 'erro';
     } else {
         try {
-            $sql = "UPDATE produtos SET titulo = :titulo, autor = :autor, isbn = :isbn, editora = :editora, ano_publicacao = :ano_publicacao, categoria = :categoria WHERE id = :id";
+            $sql = "UPDATE produto SET titulo = :titulo, autor = :autor, isbn = :isbn, editora = :editora, ano_publicacao = :ano_publicacao, categoria = :categoria WHERE id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':titulo', $titulo);
             $stmt->bindParam(':autor', $autor);
@@ -71,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             $tipo_mensagem = 'sucesso';
             
             // Recarregar dados do livro
-            $sql = "SELECT * FROM produtos WHERE id = :id";
+            $sql = "SELECT * FROM produto WHERE id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
@@ -83,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
         }
     }
 }
+
 
 // Buscar todos os livros para seleção
 $sql = "SELECT id_produto, titulo FROM produto ORDER BY titulo ASC";
