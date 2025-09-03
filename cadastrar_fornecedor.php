@@ -37,7 +37,7 @@ $permissoes = [
     4=> ["Cadastrar"=>[ "cadastro_cliente.php"],   // Cliente
         "Alterar"=>[ "alterar_cliente.php"]]
 ];    
-}
+
 
 
 // OBTENDO AS OPÇÕS DISPONIVEIS PARA O PERFIL LOGADO

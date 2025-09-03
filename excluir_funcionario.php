@@ -60,7 +60,7 @@ $permissoes = [
     4=> ["Cadastrar"=>[ "cadastro_cliente.php"],   // Cliente
         "Alterar"=>[ "alterar_cliente.php"]]
 ];    
-}
+
 $opcoes_menu = $permissoes[$id_perfil];
 
 ?>
@@ -91,14 +91,14 @@ $opcoes_menu = $permissoes[$id_perfil];
                     </ul>
             </li>
             <?php endforeach; ?>
-        </ul>
-     </nav>
+        </ul>    
+</nav>
 
     <center><h2> Excluir Funcionário</h2> </center>
     <?php if(!empty($funcionarios)):?>
         <table border = "1" class ="table table-striped">
             <tr> 
-            <th> ID </th>
+                <th> ID </th>
                 <th> Nome </th>
                 <th> Telefone </th>
                 <th> Email </th>
