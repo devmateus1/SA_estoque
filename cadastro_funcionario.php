@@ -7,6 +7,26 @@ if ($_SESSION['perfil'] != 1) {
     exit();
 }
 
+    
+$permissoes = [
+    1=> ["Cadastrar"=>["cadastro_usuario.php",  "cadastro_cliente.php", "cadastro_fornecedor.php", "cadastro_produto.php", "cadastro_funcionario.php"], // Admin
+        "Buscar"=>["buscar_usuario.php", "buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php", "buscar_funcionario.php"],
+        "Alterar"=>["alterar_usuario.php", "alterar_cliente.php", "alterar_fornecedor.php", "alterar_produto.php", "alterar_funcionario.php"],
+        "Excluir"=>["excluir_usuario.php",  "excluir_cliente.php", "excluir_fornecedor.php", "excluir_produto.php", "excluir_funcionario.php"]],
+
+    2=> ["Cadastrar"=>["cadastro_cliente.php"],
+        "Buscar"=>["buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php"], // Funcionario
+        "Alterar"=>["alterar_cliente.php", "alterar_fornecedor.php"]],
+        
+    3=> ["Cadastrar"=>[ "cadastro_fornecedor.php", "cadastro_produto.php"],         // Gerente
+        "Buscar"=>[ "buscar_cliente.php", "buscar_fornecedor.php", "buscar_funcionario.php"],
+        "Alterar"=>[ "alterar_fornecedor.php", "alterar_produto.php"],
+        "Excluir"=>["excluir_produto.php"]],
+    
+    4=> ["Cadastrar"=>[ "cadastro_cliente.php"],   // Cliente
+        "Alterar"=>[ "alterar_cliente.php"]]
+];    
+}
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $nome_funcionario = $_POST['nome_funcionario'];
     $endereco = $_POST['endereco'];
