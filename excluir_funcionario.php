@@ -60,7 +60,7 @@ $permissoes = [
     4=> ["Cadastrar"=>[ "cadastro_cliente.php"],   // Cliente
         "Alterar"=>[ "alterar_cliente.php"]]
 ];    
-}
+
 $opcoes_menu = $permissoes[$id_perfil];
 
 ?>
@@ -70,60 +70,294 @@ $opcoes_menu = $permissoes[$id_perfil];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excluir usuário</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <title>Excluir Funcionário</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Navigation styling with blur effect */
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown > a {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: block;
+            font-weight: 500;
+        }
+
+        .dropdown > a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            list-style: none;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li a {
+            color: #1e3a8a;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            display: block;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0.25rem;
+        }
+
+        .dropdown-menu li a:hover {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* Main content container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        h2 {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Table styling */
+        .table-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(30, 58, 138, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+
+        tr:hover {
+            background: rgba(30, 58, 138, 0.05);
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+
+        /* Button styling */
+        .btn {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            margin-top: 1rem;
+        }
+
+        .btn-back:hover {
+            background: linear-gradient(135deg, #1e40af, #2563eb);
+            box-shadow: 0 5px 15px rgba(30, 58, 138, 0.4);
+        }
+
+        .back-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* No data message styling */
+        .no-data {
+            text-align: center;
+            color: white;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem auto;
+            max-width: 500px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background: rgba(255, 255, 255, 0.1);
+                margin-top: 0.5rem;
+            }
+
+            .container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            th, td {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<nav>
+    <nav>
         <ul class="menu">
             <?php foreach($opcoes_menu as $categoria=>$arquivos): ?>
             <li class="dropdown">
-                    <a href="#"><?php echo $categoria; ?></a>
-                    <ul class="dropdown-menu">
+                <a href="#"><?php echo $categoria; ?></a>
+                <ul class="dropdown-menu">
                     <?php foreach($arquivos as $arquivo):?>
                         <li>
-                            <a href="<?=$arquivo ?>"> <?= ucfirst(str_replace("_", " ",basename ($arquivo, ".php")))?></a>
+                            <a href="<?php echo htmlspecialchars($arquivo); ?>"> 
+                                <?= ucfirst(str_replace("_", " ",basename ($arquivo, ".php")))?>
+                            </a>
                         </li>
-                        <?php endforeach; ?> 
-                    </ul>
+                    <?php endforeach; ?> 
+                </ul>
             </li>
             <?php endforeach; ?>
         </ul>
-     </nav>
+    </nav>
 
-    <center><h2> Excluir Funcionário</h2> </center>
-    <?php if(!empty($funcionarios)):?>
-        <table border = "1" class ="table table-striped">
-            <tr> 
-            <th> ID </th>
-                <th> Nome </th>
-                <th> Telefone </th>
-                <th> Email </th>
-                <th> Ações </th>
-            </tr>
+    <div class="container">
+        <h2>Excluir Funcionário</h2>
         
-            <?php foreach ($funcionarios as $funcionario): ?>
-                <tr>
-                <td> <?=htmlspecialchars($funcionario['id_funcionario']) ?></td>
-                    <td> <?=htmlspecialchars($funcionario['nome_funcionario']) ?></td>
-                    <td> <?=htmlspecialchars($funcionario['telefone']) ?></td>
-                    <td> <?=htmlspecialchars($funcionario['email']) ?></td>
-                  
-                
-                    <td>
-                        <a href="excluir_funcionario.php?id_funcionario=<?= htmlspecialchars($funcionario['id_funcionario']) ?>"onclick= "return confirm('Tem certeza que deseja excluir este usuário?')" class="btn btn-primary">
-                            Excluir 
-                        </a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>     
-        </table>
-            <?php else: ?>
-            <p> Nenhum usuário encontrado.</p>
-    <?php endif; ?>
-    <center> <a href="principal.php" class="btn btn-primary">Voltar</a></center> 
+        <?php if(!empty($funcionarios)):?>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr> 
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($funcionarios as $funcionario): ?>
+                            <tr>
+                                <td><?=htmlspecialchars($funcionario['id_funcionario']) ?></td>
+                                <td><?=htmlspecialchars($funcionario['nome_funcionario']) ?></td>
+                                <td><?=htmlspecialchars($funcionario['telefone']) ?></td>
+                                <td><?=htmlspecialchars($funcionario['email']) ?></td>
+                                <td>
+                                    <a href="excluir_funcionario.php?id_funcionario=<?= htmlspecialchars($funcionario['id_funcionario']) ?>"
+                                       onclick="return confirm('Tem certeza que deseja excluir este funcionário?')" 
+                                       class="btn">
+                                        Excluir 
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>     
+                    </tbody>
+                </table>
+            </div>
+        <?php else: ?>
+            <div class="no-data">
+                <p>Nenhum funcionário encontrado.</p>
+            </div>
+        <?php endif; ?>
+        
+        <div class="back-container">
+            <a href="principal.php" class="btn btn-back">Voltar</a>
+        </div>
+    </div>
 </body>
 </html>

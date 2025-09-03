@@ -26,7 +26,7 @@ $permissoes = [
     4=> ["Cadastrar"=>[ "cadastro_cliente.php"],   // Cliente
         "Alterar"=>[ "alterar_cliente.php"]]
 ];    
-}
+
 if ($_SERVER["REQUEST_METHOD"]=="POST"){
     $nome_funcionario = $_POST['nome_funcionario'];
     $endereco = $_POST['endereco'];
