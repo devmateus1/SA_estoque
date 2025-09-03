@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <a href="buscar_usuario.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🔍 Buscar Usuário</a>
                             <a href="excluir_usuario.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🗑️ Excluir Usuário</a>
                         <?php endif; ?>
-                        <a href="buscar_livro.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📖 Buscar Livro</a>
+                        <a href="buscar_produto.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📖 Buscar Livro</a>
                         <a href="painel_principal.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠 Painel Principal</a>
                     </div>
                 </div>
