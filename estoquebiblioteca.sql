@@ -223,6 +223,10 @@ ALTER TABLE `fornecedor`
 ALTER TABLE `usuario`
   ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_perfil`) REFERENCES `perfil` (`id_perfil`);
 
+-- Alterar os nomes dos perfis na tabela perfil
+UPDATE perfil SET nome_perfil = 'Cliente' WHERE nome_perfil = 'Almoxarife';
+UPDATE perfil SET nome_perfil = 'Funcionario' WHERE nome_perfil = 'Secretaria';
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
