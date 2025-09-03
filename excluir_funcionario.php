@@ -294,9 +294,7 @@ $opcoes_menu = $permissoes[$id_perfil];
             }
         }
     </style>
-</head>
-<body>
-    <nav>
+        <nav>
         <ul class="menu">
             <?php foreach($opcoes_menu as $categoria=>$arquivos): ?>
             <li class="dropdown">
@@ -312,12 +310,25 @@ $opcoes_menu = $permissoes[$id_perfil];
                 </ul>
             </li>
             <?php endforeach; ?>
+        </ul>    
+</nav>
+</head>
+<body>
+    <center><h2> Excluir Funcionário</h2> </center>
+    <?php if(!empty($funcionarios)):?>
+        <table border = "1" class ="table table-striped">
+            <tr> 
+                <th> ID </th>
+                <th> Nome </th>
+                <th> Telefone </th>
+                <th> Email </th>
+                <th> Ações </th>
+            </tr>
         </ul>
     </nav>
 
     <div class="container">
-        <h2>Excluir Funcionário</h2>
-        
+        <h2>Excluir Funcionário</h2>        
         <?php if(!empty($funcionarios)):?>
             <div class="table-container">
                 <table>
