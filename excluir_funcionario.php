@@ -352,10 +352,6 @@ $opcoes_menu = $permissoes[$id_perfil];
                 <p>Nenhum funcionário encontrado.</p>
             </div>
         <?php endif; ?>
-        
-        <div class="back-container">
-            <a href="principal.php" class="btn btn-back">Voltar</a>
-        </div>
     </div>
 </body>
 </html>
