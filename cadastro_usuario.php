@@ -87,12 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     🚪 Sair
                 </a>
             </div>
-                
-                <!-- Logout -->
-                <a href="logout.php" style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
-                    🚪 Sair
-                </a>
-            </div>
         </nav>
     </header>
 
@@ -153,8 +147,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)'; this.style.transform='translateY(-1px)';"
                     onblur="this.style.borderColor='#e5e7eb'; this.style.boxShadow='none'; this.style.transform='translateY(0)';">
                 <option value="1">Administrador</option>
-                <option value="2">Secretária</option>
-                <option value="3">Almoxarife</option>
+                <option value="2">Funcionario</option>
+                <option value="3">Gerente</option>
                 <option value="4">Cliente</option>
             </select>
         </div>
