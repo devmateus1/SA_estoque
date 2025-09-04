@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -45,7 +46,7 @@
             position: relative;
         }
 
-        .dropdown>a {
+        .dropdown > a {
             color: white;
             text-decoration: none;
             padding: 0.75rem 1.5rem;
@@ -55,7 +56,7 @@
             font-weight: 500;
         }
 
-        .dropdown>a:hover {
+        .dropdown > a:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
@@ -185,8 +186,7 @@
             margin: 0;
         }
 
-        th,
-        td {
+        th, td {
             padding: 1rem;
             text-align: left;
             border-bottom: 1px solid #e5e7eb;
@@ -281,44 +281,45 @@
                 padding: 1rem;
             }
 
-            th,
-            td {
+            th, td {
                 padding: 0.5rem;
                 font-size: 0.9rem;
             }
         }
     </style>
 </head>
-
 <body>
     <nav>
         <ul class="menu">
-            <?php foreach ($opcoes_menu as $categoria => $arquivos): ?>
-                <li class="dropdown">
-                    <a href="#"><?= $categoria ?></a>
-                    <ul class="dropdown-menu">
-                        <?php foreach ($arquivos as $arquivo): ?>
-                            <li>
-                                <a href="<?= $arquivo ?>"><?= ucfirst(str_replace("_", " ", basename($arquivo, ".php"))) ?></a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </li>
+          
+            <?php foreach($opcoes_menu as $categoria=>$arquivos): ?>
+            <li class="dropdown">
+                <a href="#"><?php echo $categoria; ?></a>
+                <ul class="dropdown-menu">
+                    <?php foreach($arquivos as $arquivo):?>
+                        <li>
+                            <a href="<?php echo htmlspecialchars($arquivo); ?>"> 
+                                <?= ucfirst(str_replace("_", " ",basename ($arquivo, ".php")))?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?> 
+                </ul>
             <?php endforeach; ?>
+        
         </ul>
     </nav>
 
     <div class="container">
         <h2>Lista de Funcionários</h2>
-
+        
         <!-- Updated form structure and removed Bootstrap classes -->
         <form action="buscar_funcionario.php" method="POST">
             <label for="busca">Digite o ID ou Nome (opcional):</label>
             <input type="text" id="busca" name="busca" placeholder="Digite o ID ou nome do funcionário...">
-            <button type="submit">Pesquisar</button>
+            <button type="submit">Pesquisar</button> 
         </form>
 
-        <?php if (!empty($funcionarios)): ?>
+        <?php if(!empty($funcionarios)):?>
             <!-- Wrapped table in container and updated structure -->
             <div class="table-container">
                 <table>
@@ -333,22 +334,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($funcionarios as $funcionario): ?>
+                        <?php foreach($funcionarios as $funcionario): ?>
                             <tr>
-                                <td><?= htmlspecialchars($funcionario['id_funcionario']) ?></td>
-                                <td><?= htmlspecialchars($funcionario['nome_funcionario']) ?></td>
-                                <td><?= htmlspecialchars($funcionario['endereco']) ?></td>
-                                <td><?= htmlspecialchars($funcionario['telefone']) ?></td>
-                                <td><?= htmlspecialchars($funcionario['email']) ?></td>
+                                <td><?=htmlspecialchars($funcionario['id_funcionario']) ?></td>
+                                <td><?=htmlspecialchars($funcionario['nome_funcionario']) ?></td>
+                                <td><?=htmlspecialchars($funcionario['endereco']) ?></td>
+                                <td><?=htmlspecialchars($funcionario['telefone']) ?></td>
+                                <td><?=htmlspecialchars($funcionario['email']) ?></td>
                                 <td>
-                                    <a href="alterar_funcionario.php?id=<?= htmlspecialchars($funcionario['id_funcionario']) ?>"
-                                        class="btn btn-primary">Alterar</a>
-                                    <a href="excluir_funcionario.php?id=<?= htmlspecialchars($funcionario['id_funcionario']) ?>"
-                                        onclick="return confirm('Tem certeza que deseja excluir este funcionário?')"
-                                        class="btn btn-danger">Excluir</a>
+                                    <a href="alterar_funcionario.php?id=<?=htmlspecialchars($funcionario['id_funcionario'])?>" class="btn btn-primary">Alterar</a>
+                                    <a href="excluir_funcionario.php?id=<?=htmlspecialchars($funcionario['id_funcionario'])?>" 
+                                       onclick="return confirm('Tem certeza que deseja excluir este funcionário?')" 
+                                       class="btn btn-danger">Excluir</a>
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endforeach; ?>   
                     </tbody>
                 </table>
             </div>
@@ -357,13 +357,16 @@
             <div class="no-results">
                 <p>Nenhum funcionário encontrado.</p>
             </div>
-        <?php endif; ?>
-
+        <?php endif; ?> 
+        
         <!-- Updated back button styling -->
         <div class="back-button">
             <a href="principal.php" class="btn btn-primary">Voltar</a>
         </div>
     </div>
+    
+</div>
+
 </body>
 
 </html>

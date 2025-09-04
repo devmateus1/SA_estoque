@@ -75,30 +75,25 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])){
     <title>Excluir Fornecedor</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%); min-height: 100vh;">
-    
-    <!-- Applied inline CSS navigation with blur effect and modern styling -->
-    <nav style="background: rgba(30, 58, 138, 0.9); backdrop-filter: blur(10px); padding: 1rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000;">
-        <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
-            <ul style="list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; gap: 2rem;">
-                <?php foreach($opcoes_menu as $categoria=>$arquivos): ?>
-                <li style="position: relative;">
-                    <a href="#" onclick="toggleDropdown(event, this)" style="color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; transition: all 0.3s ease; display: block; font-weight: 500; background: rgba(255, 255, 255, 0.1);" 
-                       onmouseover="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(-2px)'" 
-                       onmouseout="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.transform='translateY(0)'"><?= $categoria ?></a>
-                    <ul style="position: absolute; top: 100%; left: 0; background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); min-width: 200px; border-radius: 8px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); display: none; z-index: 1000; margin-top: 0.5rem; list-style: none; padding: 0.5rem 0;">
-                        <?php foreach($arquivos as $arquivo): ?>
-                        <li>
-                            <a href="<?= $arquivo ?>" style="color: white; text-decoration: none; padding: 0.75rem 1.5rem; display: block; transition: all 0.3s ease;" 
-                               onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.paddingLeft='2rem'" 
-                               onmouseout="this.style.background='transparent'; this.style.paddingLeft='1.5rem'"><?= ucfirst(str_replace("_"," ",basename($arquivo,".php")))?></a>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </nav>
+<nav style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h1 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+                📚 Sistema de Biblioteca
+            </h1>
+            
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <!-- Menu Dropdown -->
+                <div style="position: relative; display: inline-block;">
+                    <button onclick="toggleDropdown()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                        📋 Menu ▼
+                    </button>
+                    <div id="dropdown" style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
+                        <a href="cadastro_fornecedor.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(59, 130, 246, 0.1);">📚 Cadastrar Livro</a>
+                        <a href="buscar_fornecedor.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋 Listar Livros</a>
+                        <a href="alterar_fornecedor.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️ Alterar Livro</a>
+                        <a href="excluir_fornecedor.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🗑️ Excluir Livro</a>
+                        <a href="principal.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠 Painel Principal</a>
+                    </div>
+                </div>
 
     <!-- Applied modern container styling with blur effect and shadows -->
     <div style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
