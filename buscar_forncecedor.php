@@ -76,24 +76,25 @@ $opcoes_menu = $permissoes[$id_perfil];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
 <body>
-
-        <nav>
-            <ul class="menu">
-                <?php foreach($opcoes_menu as $categoria=>$arquivos): ?>
-                <li class="dropdown">
-                    <a href="#"><?= $categoria ?></a>
-                    <ul class="dropdown-menu">
-                        <?php foreach($arquivos as $arquivo): ?>
-                        <li>
-                            <a href="<?= $arquivo ?>"><?= ucfirst(str_replace("_"," ",basename($arquivo,".php")))?></a>
-                        </li>
-                            <?php endforeach; ?>
-                    </ul>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-        </nav>
-
+<nav style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h1 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+                📚 Sistema de Biblioteca
+            </h1>
+            
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <!-- Menu Dropdown -->
+                <div style="position: relative; display: inline-block;">
+                    <button onclick="toggleDropdown()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                        📋 Menu ▼
+                    </button>
+                    <div id="dropdown" style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
+                        <a href="cadastro_fornecedor.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(59, 130, 246, 0.1);">📚 Cadastrar Livro</a>
+                        <a href="buscar_fornecedor.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋 Listar Livros</a>
+                        <a href="alterar_fornecedor.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️ Alterar Livro</a>
+                        <a href="excluir_fornecedor.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🗑️ Excluir Livro</a>
+                        <a href="principal.php" style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠 Painel Principal</a>
+                    </div>
+                </div>
     <center><h2>Lista de Fornecedores</h2></center>
 
     <!-- FORMULARIO PARA BUSCAR FORNECEDOR -->
