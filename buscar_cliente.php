@@ -2,47 +2,45 @@
 session_start();
 require_once 'conexao.php';
 
-// Verifica permissão (apenas Admin ou perfis com permissão para cadastrar cliente)
-// Conforme array $permissoes que você definiu, perfis 2, 3 e 4 podem cadastrar cliente
+// Verifica permissão para buscar cliente (conforme array $permissoes: perfis 1, 2, 3, 4)
 if (!in_array($_SESSION['perfil'], [1, 2, 3, 4])) {
     echo "Acesso negado.";
     exit();
 }
 
-// Inicializa mensagens
+// Inicializa variáveis
 $mensagem = '';
 $tipo_mensagem = '';
+$resultados = [];
+$termo_busca = '';
 
-// Processa o formulário
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome_cliente = trim($_POST['nome_cliente'] ?? '');
-    $endereco = trim($_POST['endereco'] ?? '');
-    $telefone = trim($_POST['telefone'] ?? '');
-    $email = trim($_POST['email'] ?? '');
+// Processa a busca
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
+    $termo_busca = trim($_POST['termo_busca'] ?? '');
 
-    // Validação simples
-    if (empty($nome_cliente) || empty($endereco) || empty($telefone) || empty($email)) {
-        $mensagem = 'Todos os campos são obrigatórios.';
-        $tipo_mensagem = 'erro';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $mensagem = 'Email inválido.';
+    if (empty($termo_busca)) {
+        $mensagem = 'Digite um termo para buscar.';
         $tipo_mensagem = 'erro';
     } else {
         try {
-            $sql = "INSERT INTO cliente (nome_cliente, endereco, telefone, email) VALUES (:nome_cliente, :endereco, :telefone, :email)";
+            $sql = "SELECT id_cliente, nome_cliente, endereco, telefone, email 
+                    FROM cliente 
+                    WHERE nome_cliente LIKE :termo 
+                       OR telefone LIKE :termo 
+                       OR email LIKE :termo 
+                    ORDER BY nome_cliente ASC";
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':nome_cliente', $nome_cliente);
-            $stmt->bindParam(':endereco', $endereco);
-            $stmt->bindParam(':telefone', $telefone);
-            $stmt->bindParam(':email', $email);
+            $termo = "%{$termo_busca}%";
+            $stmt->bindParam(':termo', $termo);
 
             if ($stmt->execute()) {
-                $mensagem = 'Cliente cadastrado com sucesso!';
-                $tipo_mensagem = 'sucesso';
-                // Limpa os campos após sucesso
-                $_POST = [];
+                $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if (count($resultados) === 0) {
+                    $mensagem = 'Nenhum cliente encontrado.';
+                    $tipo_mensagem = 'erro';
+                }
             } else {
-                $mensagem = 'Erro ao cadastrar cliente.';
+                $mensagem = 'Erro ao buscar clientes.';
                 $tipo_mensagem = 'erro';
             }
         } catch (PDOException $e) {
@@ -58,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Cliente - Sistema de Biblioteca</title>
+    <title>Buscar Cliente - Sistema de Biblioteca</title>
     <style>
         * {
             margin: 0;
@@ -158,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         main {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: calc(100vh - 100px);
             padding: 2rem;
         }
@@ -170,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 16px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -207,6 +205,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-bottom: 1.5rem;
         }
 
         label {
@@ -232,18 +231,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transform: translateY(-1px);
         }
 
-        input::placeholder {
-            color: #9ca3af;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            flex: 1;
+        .btn-buscar {
+            width: 100%;
             padding: 1rem 2rem;
             border: none;
             border-radius: 8px;
@@ -251,29 +240,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .btn-primary {
             background: linear-gradient(135deg, #1e40af, #3b82f6);
             color: white;
             box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);
+            margin-bottom: 2rem;
         }
 
-        .btn-primary:hover {
+        .btn-buscar:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(30, 64, 175, 0.4);
         }
 
-        .btn-secondary {
-            background: linear-gradient(135deg, #6b7280, #9ca3af);
-            color: white;
-            box-shadow: 0 4px 20px rgba(107, 114, 128, 0.3);
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(107, 114, 128, 0.4);
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #1e40af;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: rgba(59, 130, 246, 0.05);
         }
 
         .back-link {
@@ -294,6 +298,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .back-link:hover {
             background: rgba(30, 64, 175, 0.2);
             transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -325,7 +336,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Main Content -->
     <main>
         <div class="container">
-            <h2>👤 Cadastrar Cliente</h2>
+            <h2>🔍 Buscar Cliente</h2>
 
             <!-- Mensagem de feedback -->
             <?php if (!empty($mensagem)): ?>
@@ -334,41 +345,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             <?php endif; ?>
 
-            <!-- Formulário -->
-            <form action="cadastro_cliente.php" method="POST">
+            <!-- Formulário de Busca -->
+            <form action="buscar_cliente.php" method="POST">
                 <div class="form-group">
-                    <label for="nome_cliente">👤 Nome do cliente:</label>
-                    <input type="text" id="nome_cliente" name="nome_cliente" value="<?php echo isset($_POST['nome_cliente']) ? htmlspecialchars($_POST['nome_cliente']) : ''; ?>" required placeholder="Digite o nome completo">
+                    <label for="termo_busca">Digite o nome, telefone ou email do cliente:</label>
+                    <input type="text" id="termo_busca" name="termo_busca" value="<?php echo htmlspecialchars($termo_busca); ?>" placeholder="Ex: João, (11) 99999-9999, joao@email.com" required>
                 </div>
-
-                <div class="form-group">
-                    <label for="endereco">📍 Endereço:</label>
-                    <input type="text" id="endereco" name="endereco" value="<?php echo isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : ''; ?>" required placeholder="Ex: Rua das Flores, 123">
-                </div>
-
-                <div class="form-group">
-                    <label for="telefone">📞 Telefone:</label>
-                    <input type="text" id="telefone" name="telefone" value="<?php echo isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : ''; ?>" required maxlength="15" placeholder="(11) 99999-9999" onkeyup="mascaraTelefone(this)">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">📧 Email:</label>
-                    <input type="email" id="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required placeholder="cliente@exemplo.com">
-                </div>
-
-                <!-- Botões -->
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary">💾 Cadastrar Cliente</button>
-                    <button type="reset" class="btn btn-secondary">🔄 Limpar Campos</button>
-                </div>
+                <button type="submit" name="buscar" class="btn-buscar">🔍 Buscar Cliente</button>
             </form>
+
+            <!-- Resultados da Busca -->
+            <?php if (!empty($resultados)): ?>
+                <h3 style="color: #1e40af; margin: 1.5rem 0 1rem; font-weight: 600;">Resultados encontrados:</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Endereço</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($resultados as $cliente): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($cliente['id_cliente']); ?></td>
+                                <td><?php echo htmlspecialchars($cliente['nome_cliente']); ?></td>
+                                <td><?php echo htmlspecialchars($cliente['endereco']); ?></td>
+                                <td><?php echo htmlspecialchars($cliente['telefone']); ?></td>
+                                <td><?php echo htmlspecialchars($cliente['email']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
 
             <!-- Botão Voltar -->
             <a href="principal.php" class="back-link">🏠 Voltar ao Painel</a>
         </div>
     </main>
 
-    <!-- Script do Dropdown e Máscara -->
+    <!-- Script do Dropdown -->
     <script>
         function toggleDropdown() {
             const dropdown = document.getElementById('dropdown');
@@ -383,18 +401,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 dropdown.style.display = 'none';
             }
         });
-
-        // Máscara de telefone
-        function mascaraTelefone(campo) {
-            let value = campo.value.replace(/\D/g, '');
-            if (value.length <= 10) {
-                value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-            } else {
-                value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-            }
-            campo.value = value;
-        }
-    </script>
-
-</body>
-</html>

@@ -2,19 +2,60 @@
 session_start();
 require_once 'conexao.php';
 
-// Verifica permissão (apenas Admin ou perfis com permissão para cadastrar cliente)
-// Conforme array $permissoes que você definiu, perfis 2, 3 e 4 podem cadastrar cliente
-if (!in_array($_SESSION['perfil'], [1, 2, 3, 4])) {
+// Verifica permissão para alterar cliente (perfis 1, 2, 3 conforme seu array $permissoes)
+if (!in_array($_SESSION['perfil'], [1, 2, 3])) {
     echo "Acesso negado.";
     exit();
 }
 
-// Inicializa mensagens
+// Inicializa variáveis
 $mensagem = '';
 $tipo_mensagem = '';
+$cliente = null;
+$termo_busca = '';
+$modo_edicao = false;
 
-// Processa o formulário
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Buscar cliente
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
+    $termo_busca = trim($_POST['termo_busca'] ?? '');
+
+    if (empty($termo_busca)) {
+        $mensagem = 'Digite um termo para buscar.';
+        $tipo_mensagem = 'erro';
+    } else {
+        try {
+            $sql = "SELECT id_cliente, nome_cliente, endereco, telefone, email 
+                    FROM cliente 
+                    WHERE nome_cliente LIKE :termo 
+                       OR telefone LIKE :termo 
+                       OR email LIKE :termo 
+                    ORDER BY nome_cliente ASC LIMIT 1";
+            $stmt = $pdo->prepare($sql);
+            $termo = "%{$termo_busca}%";
+            $stmt->bindParam(':termo', $termo);
+
+            if ($stmt->execute()) {
+                $cliente = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($cliente) {
+                    $modo_edicao = true;
+                } else {
+                    $mensagem = 'Nenhum cliente encontrado.';
+                    $tipo_mensagem = 'erro';
+                }
+            } else {
+                $mensagem = 'Erro ao buscar cliente.';
+                $tipo_mensagem = 'erro';
+            }
+        } catch (PDOException $e) {
+            $mensagem = 'Erro: ' . $e->getMessage();
+            $tipo_mensagem = 'erro';
+        }
+    }
+}
+
+// Atualizar cliente
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar'])) {
+    $id_cliente = (int)$_POST['id_cliente'];
     $nome_cliente = trim($_POST['nome_cliente'] ?? '');
     $endereco = trim($_POST['endereco'] ?? '');
     $telefone = trim($_POST['telefone'] ?? '');
@@ -24,30 +65,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($nome_cliente) || empty($endereco) || empty($telefone) || empty($email)) {
         $mensagem = 'Todos os campos são obrigatórios.';
         $tipo_mensagem = 'erro';
+        $modo_edicao = true; // Mantém o formulário visível
+        $cliente = $_POST; // Mantém os dados digitados
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $mensagem = 'Email inválido.';
         $tipo_mensagem = 'erro';
+        $modo_edicao = true;
+        $cliente = $_POST;
     } else {
         try {
-            $sql = "INSERT INTO cliente (nome_cliente, endereco, telefone, email) VALUES (:nome_cliente, :endereco, :telefone, :email)";
+            $sql = "UPDATE cliente 
+                    SET nome_cliente = :nome_cliente, 
+                        endereco = :endereco, 
+                        telefone = :telefone, 
+                        email = :email 
+                    WHERE id_cliente = :id_cliente";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':nome_cliente', $nome_cliente);
             $stmt->bindParam(':endereco', $endereco);
             $stmt->bindParam(':telefone', $telefone);
             $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':id_cliente', $id_cliente, PDO::PARAM_INT);
 
-            if ($stmt->execute()) {
-                $mensagem = 'Cliente cadastrado com sucesso!';
+            if ($stmt->execute() && $stmt->rowCount() > 0) {
+                $mensagem = 'Cliente atualizado com sucesso!';
                 $tipo_mensagem = 'sucesso';
-                // Limpa os campos após sucesso
-                $_POST = [];
+                $modo_edicao = false;
+                $cliente = null;
+                $termo_busca = ''; // Limpa busca após sucesso
             } else {
-                $mensagem = 'Erro ao cadastrar cliente.';
+                $mensagem = 'Nenhuma alteração realizada ou cliente não encontrado.';
                 $tipo_mensagem = 'erro';
+                $modo_edicao = true;
             }
         } catch (PDOException $e) {
             $mensagem = 'Erro: ' . $e->getMessage();
             $tipo_mensagem = 'erro';
+            $modo_edicao = true;
         }
     }
 }
@@ -58,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Cliente - Sistema de Biblioteca</title>
+    <title>Alterar Cliente - Sistema de Biblioteca</title>
     <style>
         * {
             margin: 0;
@@ -158,7 +212,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         main {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: calc(100vh - 100px);
             padding: 2rem;
         }
@@ -207,6 +261,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-bottom: 1.5rem;
         }
 
         label {
@@ -236,14 +291,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #9ca3af;
         }
 
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            flex: 1;
+        .btn-buscar,
+        .btn-atualizar {
+            width: 100%;
             padding: 1rem 2rem;
             border: none;
             border-radius: 8px;
@@ -251,29 +301,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: center;
         }
 
-        .btn-primary {
+        .btn-buscar {
             background: linear-gradient(135deg, #1e40af, #3b82f6);
             color: white;
             box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);
+            margin-bottom: 2rem;
         }
 
-        .btn-primary:hover {
+        .btn-buscar:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(30, 64, 175, 0.4);
         }
 
-        .btn-secondary {
+        .btn-atualizar {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            box-shadow: 0 4px 20px rgba(22, 163, 74, 0.3);
+        }
+
+        .btn-atualizar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(22, 163, 74, 0.4);
+        }
+
+        .btn-reset {
             background: linear-gradient(135deg, #6b7280, #9ca3af);
             color: white;
             box-shadow: 0 4px 20px rgba(107, 114, 128, 0.3);
         }
 
-        .btn-secondary:hover {
+        .btn-reset:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(107, 114, 128, 0.4);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .back-link {
@@ -325,7 +392,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Main Content -->
     <main>
         <div class="container">
-            <h2>👤 Cadastrar Cliente</h2>
+            <h2>✏️ Alterar Cliente</h2>
 
             <!-- Mensagem de feedback -->
             <?php if (!empty($mensagem)): ?>
@@ -334,37 +401,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             <?php endif; ?>
 
-            <!-- Formulário -->
-            <form action="cadastro_cliente.php" method="POST">
-                <div class="form-group">
-                    <label for="nome_cliente">👤 Nome do cliente:</label>
-                    <input type="text" id="nome_cliente" name="nome_cliente" value="<?php echo isset($_POST['nome_cliente']) ? htmlspecialchars($_POST['nome_cliente']) : ''; ?>" required placeholder="Digite o nome completo">
-                </div>
+            <!-- Formulário de Busca -->
+            <?php if (!$modo_edicao): ?>
+                <form action="alterar_cliente.php" method="POST">
+                    <div class="form-group">
+                        <label for="termo_busca">Digite o nome, telefone ou email do cliente:</label>
+                        <input type="text" id="termo_busca" name="termo_busca" value="<?php echo htmlspecialchars($termo_busca); ?>" placeholder="Ex: João, (11) 99999-9999, joao@email.com" required>
+                    </div>
+                    <button type="submit" name="buscar" class="btn-buscar">🔍 Buscar Cliente</button>
+                </form>
+            <?php endif; ?>
 
-                <div class="form-group">
-                    <label for="endereco">📍 Endereço:</label>
-                    <input type="text" id="endereco" name="endereco" value="<?php echo isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : ''; ?>" required placeholder="Ex: Rua das Flores, 123">
-                </div>
+            <!-- Formulário de Edição -->
+            <?php if ($modo_edicao && $cliente): ?>
+                <form action="alterar_cliente.php" method="POST">
+                    <input type="hidden" name="id_cliente" value="<?php echo htmlspecialchars($cliente['id_cliente']); ?>">
 
-                <div class="form-group">
-                    <label for="telefone">📞 Telefone:</label>
-                    <input type="text" id="telefone" name="telefone" value="<?php echo isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : ''; ?>" required maxlength="15" placeholder="(11) 99999-9999" onkeyup="mascaraTelefone(this)">
-                </div>
+                    <div class="form-group">
+                        <label for="nome_cliente">👤 Nome do cliente:</label>
+                        <input type="text" id="nome_cliente" name="nome_cliente" value="<?php echo htmlspecialchars($cliente['nome_cliente']); ?>" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="email">📧 Email:</label>
-                    <input type="email" id="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required placeholder="cliente@exemplo.com">
-                </div>
+                    <div class="form-group">
+                        <label for="endereco">📍 Endereço:</label>
+                        <input type="text" id="endereco" name="endereco" value="<?php echo htmlspecialchars($cliente['endereco']); ?>" required>
+                    </div>
 
-                <!-- Botões -->
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary">💾 Cadastrar Cliente</button>
-                    <button type="reset" class="btn btn-secondary">🔄 Limpar Campos</button>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <label for="telefone">📞 Telefone:</label>
+                        <input type="text" id="telefone" name="telefone" value="<?php echo htmlspecialchars($cliente['telefone']); ?>" maxlength="15" placeholder="(11) 99999-9999" onkeyup="mascaraTelefone(this)" required>
+                    </div>
 
-            <!-- Botão Voltar -->
-            <a href="principal.php" class="back-link">🏠 Voltar ao Painel</a>
+                    <div class="form-group">
+                        <label for="email">📧 Email:</label>
+                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($cliente['email']); ?>" required>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" name="atualizar" class="btn-atualizar">💾 Atualizar Cliente</button>
+                        <button type="reset" class="btn-reset">🔄 Limpar Campos</button>
+                    </div>
+                </form>
+
+                <form action="alterar_cliente.php" method="GET" style="margin-top: 1.5rem;">
+                    <button type="submit" class="back-link" style="background: #fbbf24; color: #78350f; border-color: #f59e0b;">⬅️ Cancelar e Buscar Novamente</button>
+                </form>
+            <?php endif; ?>
+
+            <!-- Botão Voltar (se não estiver em modo edição) -->
+            <?php if (!$modo_edicao): ?>
+                <a href="principal.php" class="back-link">🏠 Voltar ao Painel</a>
+            <?php endif; ?>
         </div>
     </main>
 
