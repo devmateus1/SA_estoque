@@ -43,34 +43,298 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alterar Senha </title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Alterar Senha - Sistema de Biblioteca</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        header {
+            background: rgba(30, 58, 138, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            min-width: 200px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-content a {
+            color: #1e40af;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 4px;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(4px);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 100px);
+            padding: 2rem;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #4b5563;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: #1e40af;
+            font-size: 0.9rem;
+        }
+
+        input[type="password"],
+        input[type="checkbox"] {
+            padding: 0.875rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: #1f2937;
+        }
+
+        input[type="password"]:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+            transform: translateY(-1px);
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(30, 64, 175, 0.4);
+        }
+
+        .back-link {
+            display: inline-block;
+            background: rgba(30, 64, 175, 0.1);
+            color: #1e40af;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(30, 64, 175, 0.2);
+            margin-top: 2rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .back-link:hover {
+            background: rgba(30, 64, 175, 0.2);
+            transform: translateY(-1px);
+        }
+    </style>
 </head>
 <body>
-    <h2> Alterar Senha</h2> :
-    <p> Olá, <strong><?php echo $_SESSION['usuario'];?></strong>. Digite sua nova senha abaixo:</p>
 
-    <form action="alterar_senha.php" method = "POST">
-        <label for="nova_senha">Nova Senha</label>
-        <input type="password" id ="nova_senha" name = "nova_senha" required>
+    <!-- Header -->
+    <header>
+        <nav>
+            <h1>📚 Sistema de Biblioteca</h1>
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <!-- Menu Dropdown (opcional, se quiser manter) -->
+                <div class="dropdown">
+                    <button onclick="toggleDropdown()" class="dropdown-btn">📋 Menu ▼</button>
+                    <div id="dropdown" class="dropdown-content">
+                        <a href="principal.php">🏠 Painel Principal</a>
+                        <a href="alterar_senha.php">🔑 Alterar Senha</a>
+                    </div>
+                </div>
+                
+                <!-- Logout -->
+                <a href="logout.php" class="logout-btn">🚪 Sair</a>
+            </div>
+        </nav>
+    </header>
 
-        <label for="confirmar_senha">Confirmar Senha</label>
-        <input type="password" id ="confirmar_senha" name = "confirmar_senha" required>
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h2>🔑 Alterar Senha</h2>
+            <p>Olá, <strong><?php echo htmlspecialchars($_SESSION['usuario']); ?></strong>. Digite sua nova senha abaixo:</p>
 
-        <label>
-            <input type="checkbox" onclick="mostrarSenha()"> Mostrar Senha
-        </label>
-        <button type="submit">Salvar Nova Senha </button>
-    </form>
+            <form action="alterar_senha.php" method="POST">
+                <div class="form-group">
+                    <label for="nova_senha">Nova Senha</label>
+                    <input type="password" id="nova_senha" name="nova_senha" required>
+                </div>
 
-    <script> 
+                <div class="form-group">
+                    <label for="confirmar_senha">Confirmar Senha</label>
+                    <input type="password" id="confirmar_senha" name="confirmar_senha" required>
+                </div>
+
+                <div class="checkbox-label">
+                    <input type="checkbox" onclick="mostrarSenha()">
+                    Mostrar Senha
+                </div>
+
+                <button type="submit">💾 Salvar Nova Senha</button>
+            </form>
+
+            <a href="principal.php" class="back-link">🏠 Voltar ao Painel</a>
+        </div>
+    </main>
+
+    <!-- Script do Dropdown e Mostrar Senha -->
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Fecha o dropdown ao clicar fora
+        window.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdown');
+            const button = event.target.closest('.dropdown-btn');
+            if (!button && !dropdown.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Mostrar/Ocultar Senha
         function mostrarSenha() {
             var senha1 = document.getElementById("nova_senha");
-            var senha2 = document.getElementById("confimrar_senha");
+            var senha2 = document.getElementById("confirmar_senha");
             var tipo = senha1.type === "password" ? "text" : "password";
             senha1.type = tipo;
             senha2.type = tipo;
         }
     </script>
+
 </body>
 </html>
