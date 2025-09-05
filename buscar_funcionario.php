@@ -1,13 +1,82 @@
+<?php
+session_start();
+require_once 'conexao.php';
+
+// Verifica permissão (apenas Admin e Gerente podem buscar)
+if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 3) {
+    echo "<script>alert('Acesso negado.'); window.location.href='principal.php';</script>";
+    exit();
+}
+
+// Inicializa variáveis
+$funcionarios = [];
+
+// Obtém o nome do perfil do usuário logado
+$id_perfil = $_SESSION['perfil'];
+$sqlPerfil = "SELECT nome_perfil FROM perfil WHERE id_perfil = :id_perfil";
+$stmtPerfil = $pdo->prepare($sqlPerfil);
+$stmtPerfil->bindParam(':id_perfil', $id_perfil, PDO::PARAM_INT);
+$stmtPerfil->execute();
+$perfil = $stmtPerfil->fetch(PDO::FETCH_ASSOC);
+$nome_perfil = $perfil['nome_perfil'] ?? 'Usuário';
+
+// Definição de permissões
+$permissoes = [
+    1 => [
+        "Cadastrar" => ["cadastro_usuario.php", "cadastro_cliente.php", "cadastro_fornecedor.php", "cadastro_produto.php", "cadastro_funcionario.php"],
+        "Buscar" => ["buscar_usuario.php", "buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php", "buscar_funcionario.php"],
+        "Alterar" => ["alterar_usuario.php", "alterar_cliente.php", "alterar_fornecedor.php", "alterar_produto.php", "alterar_funcionario.php"],
+        "Excluir" => ["excluir_usuario.php", "excluir_cliente.php", "excluir_fornecedor.php", "excluir_produto.php", "excluir_funcionario.php"]
+    ],
+    2 => [
+        "Cadastrar" => ["cadastro_cliente.php"],
+        "Buscar" => ["buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php"],
+        "Alterar" => ["alterar_cliente.php", "alterar_fornecedor.php"]
+    ],
+    3 => [
+        "Cadastrar" => ["cadastro_fornecedor.php", "cadastro_produto.php"],
+        "Buscar" => ["buscar_cliente.php", "buscar_fornecedor.php", "buscar_funcionario.php"],
+        "Alterar" => ["alterar_fornecedor.php", "alterar_produto.php"],
+        "Excluir" => ["excluir_produto.php"]
+    ],
+    4 => [
+        "Cadastrar" => ["cadastro_cliente.php"],
+        "Alterar" => ["alterar_cliente.php"]
+    ]
+];
+
+// Carrega opções do menu com base no perfil
+$opcoes_menu = $permissoes[$id_perfil] ?? [];
+
+// Busca de funcionários
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['busca'])) {
+    $busca = trim($_POST['busca']);
+
+    if (is_numeric($busca)) {
+        $sql = "SELECT * FROM funcionario WHERE id_funcionario = :busca ORDER BY nome_funcionario ASC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':busca', $busca, PDO::PARAM_INT);
+    } else {
+        $sql = "SELECT * FROM funcionario WHERE nome_funcionario LIKE :busca ORDER BY nome_funcionario ASC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':busca', "%$busca%", PDO::PARAM_STR);
+    }
+} else {
+    $sql = "SELECT * FROM funcionario ORDER BY nome_funcionario ASC";
+    $stmt = $pdo->prepare($sql);
+}
+
+$stmt->execute();
+$funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Funcionario</title>
+    <title>Buscar Funcionário - Sistema de Biblioteca</title>
     <style>
-        /* Replaced Bootstrap with modern inline CSS styling */
         * {
             margin: 0;
             padding: 0;
@@ -54,9 +123,11 @@
             transition: all 0.3s ease;
             display: block;
             font-weight: 500;
+            cursor: pointer;
         }
 
-        .dropdown > a:hover {
+        .dropdown > a:hover,
+        .dropdown.open > a {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
@@ -76,9 +147,10 @@
             transform: translateY(-10px);
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 1000;
         }
 
-        .dropdown:hover .dropdown-menu {
+        .dropdown.open .dropdown-menu {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
@@ -289,38 +361,44 @@
     </style>
 </head>
 <body>
+
+    <!-- Navigation -->
     <nav>
         <ul class="menu">
-          
-            <?php foreach($opcoes_menu as $categoria=>$arquivos): ?>
-            <li class="dropdown">
-                <a href="#"><?php echo $categoria; ?></a>
-                <ul class="dropdown-menu">
-                    <?php foreach($arquivos as $arquivo):?>
-                        <li>
-                            <a href="<?php echo htmlspecialchars($arquivo); ?>"> 
-                                <?= ucfirst(str_replace("_", " ",basename ($arquivo, ".php")))?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?> 
-                </ul>
+            <?php foreach ($opcoes_menu as $categoria => $arquivos): ?>
+                <li class="dropdown">
+                    <a href="#" onclick="toggleDropdown(this.parentElement); return false;">
+                        <?= htmlspecialchars($categoria) ?>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <?php foreach ($arquivos as $arquivo): 
+                            $nome_link = ucfirst(str_replace(['_', '.php'], [' ', ''], basename($arquivo)));
+                        ?>
+                            <li>
+                                <a href="<?= htmlspecialchars($arquivo) ?>">
+                                    <?= htmlspecialchars($nome_link) ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
             <?php endforeach; ?>
-        
         </ul>
     </nav>
 
+    <!-- Main Content -->
     <div class="container">
-        <h2>Lista de Funcionários</h2>
-        
-        <!-- Updated form structure and removed Bootstrap classes -->
+        <h2>📋 Lista de Funcionários</h2>
+
+        <!-- Formulário de busca -->
         <form action="buscar_funcionario.php" method="POST">
             <label for="busca">Digite o ID ou Nome (opcional):</label>
             <input type="text" id="busca" name="busca" placeholder="Digite o ID ou nome do funcionário...">
-            <button type="submit">Pesquisar</button> 
+            <button type="submit">Pesquisar</button>
         </form>
 
-        <?php if(!empty($funcionarios)):?>
-            <!-- Wrapped table in container and updated structure -->
+        <!-- Tabela de resultados -->
+        <?php if (!empty($funcionarios)): ?>
             <div class="table-container">
                 <table>
                     <thead>
@@ -334,39 +412,62 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($funcionarios as $funcionario): ?>
+                        <?php foreach ($funcionarios as $func): ?>
                             <tr>
-                                <td><?=htmlspecialchars($funcionario['id_funcionario']) ?></td>
-                                <td><?=htmlspecialchars($funcionario['nome_funcionario']) ?></td>
-                                <td><?=htmlspecialchars($funcionario['endereco']) ?></td>
-                                <td><?=htmlspecialchars($funcionario['telefone']) ?></td>
-                                <td><?=htmlspecialchars($funcionario['email']) ?></td>
+                                <td><?= htmlspecialchars($func['id_funcionario']) ?></td>
+                                <td><?= htmlspecialchars($func['nome_funcionario']) ?></td>
+                                <td><?= htmlspecialchars($func['endereco']) ?></td>
+                                <td><?= htmlspecialchars($func['telefone']) ?></td>
+                                <td><?= htmlspecialchars($func['email']) ?></td>
                                 <td>
-                                    <a href="alterar_funcionario.php?id=<?=htmlspecialchars($funcionario['id_funcionario'])?>" class="btn btn-primary">Alterar</a>
-                                    <a href="excluir_funcionario.php?id=<?=htmlspecialchars($funcionario['id_funcionario'])?>" 
-                                       onclick="return confirm('Tem certeza que deseja excluir este funcionário?')" 
-                                       class="btn btn-danger">Excluir</a>
+                                    <a href="alterar_funcionario.php?id=<?= $func['id_funcionario'] ?>" class="btn btn-primary">✏️ Alterar</a>
+                                    <a href="excluir_funcionario.php?id=<?= $func['id_funcionario'] ?>" 
+                                       class="btn btn-danger"
+                                       onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">
+                                       🗑️ Excluir
+                                    </a>
                                 </td>
                             </tr>
-                        <?php endforeach; ?>   
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         <?php else: ?>
-            <!-- Updated no results message styling -->
             <div class="no-results">
                 <p>Nenhum funcionário encontrado.</p>
             </div>
-        <?php endif; ?> 
-        
-        <!-- Updated back button styling -->
+        <?php endif; ?>
+
+        <!-- Botão Voltar -->
         <div class="back-button">
-            <a href="principal.php" class="btn btn-primary">Voltar</a>
+            <a href="principal.php" class="btn btn-primary">🏠 Voltar ao Painel</a>
         </div>
     </div>
-    
-</div>
+
+    <!-- JavaScript para o dropdown funcionar ao clicar -->
+    <script>
+        function toggleDropdown(dropdown) {
+            // Fecha todos os outros dropdowns
+            document.querySelectorAll('.dropdown').forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.remove('open');
+                }
+            });
+
+            // Alterna o dropdown clicado
+            dropdown.classList.toggle('open');
+        }
+
+        // Fecha o menu ao clicar fora
+        document.addEventListener('click', function(event) {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            const isClickInside = event.target.closest('.dropdown');
+
+            if (!isClickInside) {
+                dropdowns.forEach(d => d.classList.remove('open'));
+            }
+        });
+    </script>
 
 </body>
-
 </html>
