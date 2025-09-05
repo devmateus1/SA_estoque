@@ -85,6 +85,7 @@ $permissoes = [
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -224,7 +225,8 @@ $permissoes = [
             font-size: 14px;
         }
 
-        input, select {
+        input,
+        select {
             padding: 14px 16px;
             border: 2px solid #e5e7eb;
             border-radius: 12px;
@@ -234,7 +236,8 @@ $permissoes = [
             color: #1f2937;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
             outline: none;
@@ -320,27 +323,51 @@ $permissoes = [
         }
     </style>
 </head>
+
 <body>
 
     <!-- Header -->
-    <header>
-        <nav>
-            <h1>📚 Sistema de Biblioteca</h1>
-            <div style="display: flex; align-items: center; gap: 1.5rem;">
+    <header
+        style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <nav
+            style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h1
+                style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+                📚 Sistema de Biblioteca
+            </h1>
+
+            <div style="display: flex; align-items: center; gap: 2rem;">
                 <!-- Menu Dropdown -->
-                <div class="dropdown">
-                    <button onclick="toggleDropdown()" class="dropdown-btn">📋 Menu ▼</button>
-                    <div id="dropdown" class="dropdown-content">
-                        <a href="cadastro_usuario.php">👤 Cadastrar Funcionário</a>
-                        <a href="buscar_usuario.php">📋 Buscar Funcionário</a>
-                        <a href="alterar_usuario.php">✏️ Alterar Funcionário</a>
-                        <a href="excluir_usuario.php">🗑️ Excluir Funcionário</a>
-                        <a href="principal.php">🏠 Painel Principal</a>
+                <div style="position: relative; display: inline-block;">
+                    <button onclick="toggleDropdown()"
+                        style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                        📋 Menu ▼
+                    </button>
+                    <div id="dropdown"
+                        style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
+                        <a href="cadastro_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
+                            Cadastrar Livro</a>
+                        <a href="buscar_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
+                            Listar Livros</a>
+                        <a href="alterar_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
+                            Alterar Livro</a>
+                        <a href="excluir_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(239, 68, 68, 0.1);">🗑️
+                            Excluir Livro</a>
+                        <a href="principal.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠
+                            Painel Principal</a>
                     </div>
                 </div>
-                
+
                 <!-- Logout -->
-                <a href="logout.php" class="logout-btn">🚪 Sair</a>
+                <a href="logout.php"
+                    style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
+                    🚪 Sair
+                </a>
             </div>
         </nav>
     </header>
@@ -360,12 +387,14 @@ $permissoes = [
             <form action="cadastro_usuario.php" method="POST">
                 <div class="form-group">
                     <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($_POST['nome'] ?? ''); ?>" required>
+                    <input type="text" id="nome" name="nome"
+                        value="<?php echo htmlspecialchars($_POST['nome'] ?? ''); ?>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>" required>
+                    <input type="email" id="email" name="email"
+                        value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>" required>
                 </div>
 
                 <div class="form-group">
@@ -376,10 +405,14 @@ $permissoes = [
                 <div class="form-group">
                     <label for="id_perfil">Perfil:</label>
                     <select name="id_perfil" id="id_perfil" required>
-                        <option value="1" <?php echo ($_POST['id_perfil'] ?? '') == '1' ? 'selected' : ''; ?>>Administrador</option>
-                        <option value="2" <?php echo ($_POST['id_perfil'] ?? '') == '2' ? 'selected' : ''; ?>>Funcionário</option>
-                        <option value="3" <?php echo ($_POST['id_perfil'] ?? '') == '3' ? 'selected' : ''; ?>>Gerente</option>
-                        <option value="4" <?php echo ($_POST['id_perfil'] ?? '') == '4' ? 'selected' : ''; ?>>Cliente</option>
+                        <option value="1" <?php echo ($_POST['id_perfil'] ?? '') == '1' ? 'selected' : ''; ?>>
+                            Administrador</option>
+                        <option value="2" <?php echo ($_POST['id_perfil'] ?? '') == '2' ? 'selected' : ''; ?>>Funcionário
+                        </option>
+                        <option value="3" <?php echo ($_POST['id_perfil'] ?? '') == '3' ? 'selected' : ''; ?>>Gerente
+                        </option>
+                        <option value="4" <?php echo ($_POST['id_perfil'] ?? '') == '4' ? 'selected' : ''; ?>>Cliente
+                        </option>
                     </select>
                 </div>
 
@@ -401,10 +434,10 @@ $permissoes = [
         }
 
         // Fecha o dropdown ao clicar fora
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             const dropdown = document.getElementById('dropdown');
             const button = event.target.closest('button');
-            
+
             if (!button || !button.onclick || !button.onclick.toString().includes('toggleDropdown')) {
                 dropdown.style.display = 'none';
             }
@@ -412,4 +445,5 @@ $permissoes = [
     </script>
 
 </body>
+
 </html>

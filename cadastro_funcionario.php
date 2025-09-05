@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 require_once 'conexao.php';
 
@@ -77,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -319,27 +320,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
+
 <body>
 
     <!-- Header -->
-    <header>
-        <nav>
-            <h1>📚 Sistema de Biblioteca</h1>
-            <div style="display: flex; align-items: center; gap: 1.5rem;">
+    <header
+        style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <nav
+            style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h1
+                style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+                📚 Sistema de Biblioteca
+            </h1>
+
+            <div style="display: flex; align-items: center; gap: 2rem;">
                 <!-- Menu Dropdown -->
-                <div class="dropdown">
-                    <button onclick="toggleDropdown()" class="dropdown-btn">📋 Menu ▼</button>
-                    <div id="dropdown" class="dropdown-content">
-                        <a href="cadastro_funcionario.php">👤 Cadastrar Funcionário</a>
-                        <a href="buscar_funcionario.php">📋 Buscar Funcionário</a>
-                        <a href="alterar_funcionario.php">✏️ Alterar Funcionário</a>
-                        <a href="excluir_funcionario.php">🗑️ Excluir Funcionário</a>
-                        <a href="principal.php">🏠 Painel Principal</a>
+                <div style="position: relative; display: inline-block;">
+                    <button onclick="toggleDropdown()"
+                        style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                        📋 Menu ▼
+                    </button>
+                    <div id="dropdown"
+                        style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
+                        <a href="cadastro_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
+                            Cadastrar Livro</a>
+                        <a href="buscar_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
+                            Listar Livros</a>
+                        <a href="alterar_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
+                            Alterar Livro</a>
+                        <a href="excluir_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(239, 68, 68, 0.1);">🗑️
+                            Excluir Livro</a>
+                        <a href="principal.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠
+                            Painel Principal</a>
                     </div>
                 </div>
-                
+
                 <!-- Logout -->
-                <a href="logout.php" class="logout-btn">🚪 Sair</a>
+                <a href="logout.php"
+                    style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
+                    🚪 Sair
+                </a>
             </div>
         </nav>
     </header>
@@ -360,7 +385,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="cadastro_funcionario.php" method="POST">
                 <div class="form-group">
                     <label for="nome_funcionario">👤 Nome do funcionário:</label>
-                    <input type="text" id="nome_funcionario" name="nome_funcionario" required placeholder="Digite o nome completo">
+                    <input type="text" id="nome_funcionario" name="nome_funcionario" required
+                        placeholder="Digite o nome completo">
                 </div>
 
                 <div class="form-group">
@@ -370,7 +396,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-group">
                     <label for="telefone">📞 Telefone:</label>
-                    <input type="text" id="telefone" name="telefone" required maxlength="15" placeholder="(11) 99999-9999" onkeyup="mascaraTelefone(this)">
+                    <input type="text" id="telefone" name="telefone" required maxlength="15"
+                        placeholder="(11) 99999-9999" onkeyup="mascaraTelefone(this)">
                 </div>
 
                 <div class="form-group">
@@ -398,7 +425,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Fecha o dropdown ao clicar fora
-        window.addEventListener('click', function(event) {
+        window.addEventListener('click', function (event) {
             const dropdown = document.getElementById('dropdown');
             const button = event.target.closest('.dropdown-btn');
             if (!button && !dropdown.contains(event.target)) {
@@ -419,4 +446,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
 
 </body>
+
 </html>

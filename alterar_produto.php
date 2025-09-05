@@ -127,6 +127,7 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -194,7 +195,8 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
             transform: translateX(4px);
         }
 
-        button, a {
+        button,
+        a {
             text-decoration: none;
             font-weight: 500;
         }
@@ -255,7 +257,8 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
             margin-bottom: 0.5rem;
         }
 
-        input, select {
+        input,
+        select {
             padding: 0.875rem;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
@@ -266,7 +269,8 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
             box-sizing: border-box;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
             outline: none;
@@ -332,28 +336,50 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     </style>
 </head>
+
 <body>
 
+
     <!-- Header -->
-    <header>
-        <nav>
-            <h1>📚 Sistema de Biblioteca</h1>
+    <header
+        style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <nav
+            style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h1
+                style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+                📚 Sistema de Biblioteca
+            </h1>
+
             <div style="display: flex; align-items: center; gap: 2rem;">
                 <!-- Menu Dropdown -->
-                <div style="position: relative;">
-                    <button onclick="toggleDropdown()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                <div style="position: relative; display: inline-block;">
+                    <button onclick="toggleDropdown()"
+                        style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
                         📋 Menu ▼
                     </button>
-                    <div id="dropdown">
-                        <a href="cadastro_produto.php">📚 Cadastrar Livro</a>
-                        <a href="buscar_produto.php">📋 Listar Livros</a>
-                        <a href="alterar_produto.php">✏️ Alterar Livro</a>
-                        <a href="excluir_produto.php">🗑️ Excluir Livro</a>
-                        <a href="principal.php">🏠 Painel Principal</a>
+                    <div id="dropdown"
+                        style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
+                        <a href="cadastro_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
+                            Cadastrar Livro</a>
+                        <a href="buscar_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
+                            Listar Livros</a>
+                        <a href="alterar_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
+                            Alterar Livro</a>
+                        <a href="excluir_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(239, 68, 68, 0.1);">🗑️
+                            Excluir Livro</a>
+                        <a href="principal.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠
+                            Painel Principal</a>
                     </div>
                 </div>
+
                 <!-- Logout -->
-                <a href="logout.php" style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
+                <a href="logout.php"
+                    style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
                     🚪 Sair
                 </a>
             </div>
@@ -376,7 +402,8 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php if (!$livro && !isset($_GET['id_produto'])): ?>
                 <div class="form-group">
                     <label for="livro-select">📚 Selecione um livro para alterar:</label>
-                    <select id="livro-select" onchange="window.location.href='alterar_produto.php?id_produto=' + this.value;">
+                    <select id="livro-select"
+                        onchange="window.location.href='alterar_produto.php?id_produto=' + this.value;">
                         <option value="">Escolha um livro...</option>
                         <?php foreach ($todos_livros as $item): ?>
                             <option value="<?php echo $item['id_produto']; ?>" <?php echo (isset($_GET['id_produto']) && $_GET['id_produto'] == $item['id_produto']) ? 'selected' : ''; ?>>
@@ -394,43 +421,59 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class="form-group">
                         <label for="titulo">📖 Título do Livro:</label>
-                        <input type="text" id="titulo" name="titulo" value="<?php echo htmlspecialchars($livro['titulo']); ?>" required>
+                        <input type="text" id="titulo" name="titulo"
+                            value="<?php echo htmlspecialchars($livro['titulo']); ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label for="autor">✍️ Autor:</label>
-                        <input type="text" id="autor" name="autor" value="<?php echo htmlspecialchars($livro['autor']); ?>" required>
+                        <input type="text" id="autor" name="autor" value="<?php echo htmlspecialchars($livro['autor']); ?>"
+                            required>
                     </div>
 
                     <div class="form-group">
                         <label for="isbn">🔢 ISBN:</label>
-                        <input type="text" id="isbn" name="isbn" value="<?php echo htmlspecialchars($livro['isbn']); ?>" required>
+                        <input type="text" id="isbn" name="isbn" value="<?php echo htmlspecialchars($livro['isbn']); ?>"
+                            required>
                     </div>
 
                     <div class="form-group">
                         <label for="editora">🏢 Editora:</label>
-                        <input type="text" id="editora" name="editora" value="<?php echo htmlspecialchars($livro['editora']); ?>" required>
+                        <input type="text" id="editora" name="editora"
+                            value="<?php echo htmlspecialchars($livro['editora']); ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label for="ano_publicacao">📅 Ano de Publicação:</label>
-                        <input type="number" id="ano_publicacao" name="ano_publicacao" value="<?php echo htmlspecialchars($livro['ano_publicacao']); ?>" min="1000" max="<?php echo date('Y'); ?>" required>
+                        <input type="number" id="ano_publicacao" name="ano_publicacao"
+                            value="<?php echo htmlspecialchars($livro['ano_publicacao']); ?>" min="1000"
+                            max="<?php echo date('Y'); ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label for="categoria">📂 Categoria:</label>
                         <select id="categoria" name="categoria" required>
                             <option value="">Selecione uma categoria</option>
-                            <option value="Ficção" <?php echo $livro['categoria'] === 'Ficção' ? 'selected' : ''; ?>>Ficção</option>
-                            <option value="Não-ficção" <?php echo $livro['categoria'] === 'Não-ficção' ? 'selected' : ''; ?>>Não-ficção</option>
-                            <option value="Romance" <?php echo $livro['categoria'] === 'Romance' ? 'selected' : ''; ?>>Romance</option>
-                            <option value="Mistério" <?php echo $livro['categoria'] === 'Mistério' ? 'selected' : ''; ?>>Mistério</option>
-                            <option value="Fantasia" <?php echo $livro['categoria'] === 'Fantasia' ? 'selected' : ''; ?>>Fantasia</option>
-                            <option value="Biografia" <?php echo $livro['categoria'] === 'Biografia' ? 'selected' : ''; ?>>Biografia</option>
-                            <option value="História" <?php echo $livro['categoria'] === 'História' ? 'selected' : ''; ?>>História</option>
-                            <option value="Ciência" <?php echo $livro['categoria'] === 'Ciência' ? 'selected' : ''; ?>>Ciência</option>
-                            <option value="Tecnologia" <?php echo $livro['categoria'] === 'Tecnologia' ? 'selected' : ''; ?>>Tecnologia</option>
-                            <option value="Educação" <?php echo $livro['categoria'] === 'Educação' ? 'selected' : ''; ?>>Educação</option>
+                            <option value="Ficção" <?php echo $livro['categoria'] === 'Ficção' ? 'selected' : ''; ?>>Ficção
+                            </option>
+                            <option value="Não-ficção" <?php echo $livro['categoria'] === 'Não-ficção' ? 'selected' : ''; ?>>
+                                Não-ficção</option>
+                            <option value="Romance" <?php echo $livro['categoria'] === 'Romance' ? 'selected' : ''; ?>>Romance
+                            </option>
+                            <option value="Mistério" <?php echo $livro['categoria'] === 'Mistério' ? 'selected' : ''; ?>>
+                                Mistério</option>
+                            <option value="Fantasia" <?php echo $livro['categoria'] === 'Fantasia' ? 'selected' : ''; ?>>
+                                Fantasia</option>
+                            <option value="Biografia" <?php echo $livro['categoria'] === 'Biografia' ? 'selected' : ''; ?>>
+                                Biografia</option>
+                            <option value="História" <?php echo $livro['categoria'] === 'História' ? 'selected' : ''; ?>>
+                                História</option>
+                            <option value="Ciência" <?php echo $livro['categoria'] === 'Ciência' ? 'selected' : ''; ?>>Ciência
+                            </option>
+                            <option value="Tecnologia" <?php echo $livro['categoria'] === 'Tecnologia' ? 'selected' : ''; ?>>
+                                Tecnologia</option>
+                            <option value="Educação" <?php echo $livro['categoria'] === 'Educação' ? 'selected' : ''; ?>>
+                                Educação</option>
                         </select>
                     </div>
 
@@ -451,7 +494,7 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         // Fechar dropdown ao clicar fora
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (!event.target.matches('button') && !event.target.closest('button')) {
                 const dropdown = document.getElementById('dropdown');
                 if (dropdown.style.display === 'block') {
@@ -461,7 +504,7 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         // Efeito hover nos links do menu
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const links = document.querySelectorAll('#dropdown a');
             links.forEach(link => {
                 link.addEventListener('mouseenter', () => {
@@ -477,4 +520,5 @@ $todos_livros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </script>
 
 </body>
+
 </html>

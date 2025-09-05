@@ -2,33 +2,33 @@
 session_start();
 require_once 'conexao.php';
 
-if ($_SESSION['perfil']!= 1) {
-    echo"<script>alert('Acesso negado.');window.location.href='principal.php';</script>";
+if ($_SESSION['perfil'] != 1) {
+    echo "<script>alert('Acesso negado.');window.location.href='principal.php';</script>";
     exit();
 }
 
 $funcionario = null;
 
-if ($_SERVER["REQUEST_METHOD"] ==  "POST"){
-   if (!empty($_POST['busca_funcionario'])){
-    $busca = trim($_POST['busca_funcionario']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!empty($_POST['busca_funcionario'])) {
+        $busca = trim($_POST['busca_funcionario']);
 
-    if (is_numeric($busca)) {
-        $sql = "SELECT * FROM funcionario WHERE id_funcionario = :busca";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':busca', $busca, PDO::PARAM_INT);
-    } else {
-        $sql = "SELECT * FROM funcionario WHERE nome_funcionario like :busca_nome";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':busca_nome', "%$busca%", PDO::PARAM_STR);
-    }
-    $stmt->execute();
-    $funcionario = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (is_numeric($busca)) {
+            $sql = "SELECT * FROM funcionario WHERE id_funcionario = :busca";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':busca', $busca, PDO::PARAM_INT);
+        } else {
+            $sql = "SELECT * FROM funcionario WHERE nome_funcionario like :busca_nome";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':busca_nome', "%$busca%", PDO::PARAM_STR);
+        }
+        $stmt->execute();
+        $funcionario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if(!$funcionario) {
-        echo "<script>alert('Funcionário não encontrado.');</script>";
+        if (!$funcionario) {
+            echo "<script>alert('Funcionário não encontrado.');</script>";
+        }
     }
-}
 }
 
 $id_perfil = $_SESSION['perfil'];
@@ -39,29 +39,38 @@ $stmtPerfil->execute();
 $perfil = $stmtPerfil->fetch(PDO::FETCH_ASSOC);
 $nome_perfil = $perfil['nome_perfil'];
 $permissoes = [
-    1=> ["Cadastrar"=>["cadastro_usuario.php",  "cadastro_cliente.php", "cadastro_fornecedor.php", "cadastro_produto.php", "cadastro_funcionario.php"],
-        "Buscar"=>["buscar_usuario.php",  "buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php", "buscar_funcionario.php"],
-        "Alterar"=>["alterar_usuario.php","alterar_cliente.php", "alterar_fornecedor.php", "alterar_produto.php", "alterar_funcionario.php"],
-        "Excluir"=>["excluir_usuario.php", "excluir_cliente.php", "excluir_fornecedor.php", "excluir_produto.php", "excluir_funcionario.php"]],
+    1 => [
+        "Cadastrar" => ["cadastro_usuario.php", "cadastro_cliente.php", "cadastro_fornecedor.php", "cadastro_produto.php", "cadastro_funcionario.php"],
+        "Buscar" => ["buscar_usuario.php", "buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php", "buscar_funcionario.php"],
+        "Alterar" => ["alterar_usuario.php", "alterar_cliente.php", "alterar_fornecedor.php", "alterar_produto.php", "alterar_funcionario.php"],
+        "Excluir" => ["excluir_usuario.php", "excluir_cliente.php", "excluir_fornecedor.php", "excluir_produto.php", "excluir_funcionario.php"]
+    ],
 
-    2=> ["Cadastrar"=>["cadastro_cliente.php"],
-        "Buscar"=>["buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php"],
-        "Alterar"=>["alterar_cliente.php", "alterar_fornecedor.php"]],
-        
-    3=> ["Cadastrar"=>[ "cadastro_fornecedor.php", "cadastro_produto.php"],
-        "Buscar"=>[ "buscar_cliente.php", "buscar_fornecedor.php", "buscar_funcionario.php"],
-        "Alterar"=>[ "alterar_fornecedor.php", "alterar_produto.php"],
-        "Excluir"=>["excluir_produto.php"]],
-    
-    4=> ["Cadastrar"=>[ "cadastro_cliente.php"],
-        "Alterar"=>[ "alterar_cliente.php"]]
-];    
+    2 => [
+        "Cadastrar" => ["cadastro_cliente.php"],
+        "Buscar" => ["buscar_cliente.php", "buscar_fornecedor.php", "buscar_produto.php"],
+        "Alterar" => ["alterar_cliente.php", "alterar_fornecedor.php"]
+    ],
 
-$opcoes_menu = $permissoes[$id_perfil]; 
+    3 => [
+        "Cadastrar" => ["cadastro_fornecedor.php", "cadastro_produto.php"],
+        "Buscar" => ["buscar_cliente.php", "buscar_fornecedor.php", "buscar_funcionario.php"],
+        "Alterar" => ["alterar_fornecedor.php", "alterar_produto.php"],
+        "Excluir" => ["excluir_produto.php"]
+    ],
+
+    4 => [
+        "Cadastrar" => ["cadastro_cliente.php"],
+        "Alterar" => ["alterar_cliente.php"]
+    ]
+];
+
+$opcoes_menu = $permissoes[$id_perfil];
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -102,7 +111,7 @@ $opcoes_menu = $permissoes[$id_perfil];
             position: relative;
         }
 
-        .dropdown > a {
+        .dropdown>a {
             color: white;
             text-decoration: none;
             padding: 0.75rem 1.5rem;
@@ -112,7 +121,7 @@ $opcoes_menu = $permissoes[$id_perfil];
             font-weight: 500;
         }
 
-        .dropdown > a:hover {
+        .dropdown>a:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
@@ -298,29 +307,58 @@ $opcoes_menu = $permissoes[$id_perfil];
         }
     </style>
 </head>
+
 <body>
-    <nav>
-        <ul class="menu">
-            <?php foreach($opcoes_menu as $categoria=>$arquivos): ?>
-            <li class="dropdown">
-                <a href="#"><?php echo $categoria; ?></a>
-                <ul class="dropdown-menu">
-                <?php foreach($arquivos as $arquivo):?>
-                    <li>
-                        <a href="<?php echo htmlspecialchars($arquivo); ?>"> 
-                            <?= ucfirst(str_replace("_", " ",basename ($arquivo, ".php")))?>
-                        </a>
-                    </li>
-                    <?php endforeach; ?> 
-                </ul>
-            </li>
-            <?php endforeach; ?>
-        </ul>
-    </nav>
+
+    <!-- Header -->
+    <header
+        style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <nav
+            style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h1
+                style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+                📚 Sistema de Biblioteca
+            </h1>
+
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <!-- Menu Dropdown -->
+                <div style="position: relative; display: inline-block;">
+                    <button onclick="toggleDropdown()"
+                        style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                        📋 Menu ▼
+                    </button>
+                    <div id="dropdown"
+                        style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
+                        <a href="cadastro_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
+                            Cadastrar Livro</a>
+                        <a href="buscar_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
+                            Listar Livros</a>
+                        <a href="alterar_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
+                            Alterar Livro</a>
+                        <a href="excluir_produto.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(239, 68, 68, 0.1);">🗑️
+                            Excluir Livro</a>
+                        <a href="principal.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠
+                            Painel Principal</a>
+                    </div>
+                </div>
+
+                <!-- Logout -->
+                <a href="logout.php"
+                    style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
+                    🚪 Sair
+                </a>
+            </div>
+        </nav>
+    </header>
 
     <div class="container">
         <h2>Alterar Funcionário</h2>
-        
+
         <div class="form-container search-form">
             <form action="alterar_funcionario.php" method="POST">
                 <div class="form-group">
@@ -328,50 +366,55 @@ $opcoes_menu = $permissoes[$id_perfil];
                     <input type="text" id="busca_funcionario" name="busca_funcionario" required>
                     <div id="sugestoes"></div>
                 </div>
-                <button type="submit" class="btn">Buscar Funcionário</button> 
+                <button type="submit" class="btn">Buscar Funcionário</button>
             </form>
         </div>
 
-        <?php if($funcionario): ?>
-        <div class="form-container">
-            <form action="processa_alteracao_funcionario.php" method="POST" class="edit-form">
-                <input type="hidden" name="id_funcionario" value="<?=htmlspecialchars($funcionario['id_funcionario'])?>">
+        <?php if ($funcionario): ?>
+            <div class="form-container">
+                <form action="processa_alteracao_funcionario.php" method="POST" class="edit-form">
+                    <input type="hidden" name="id_funcionario"
+                        value="<?= htmlspecialchars($funcionario['id_funcionario']) ?>">
 
-                <div class="form-group">
-                    <label for="nome_funcionario">Nome:</label>
-                    <input type="text" id="nome_funcionario" name="nome_funcionario" value="<?=htmlspecialchars($funcionario['nome_funcionario'])?>" required>
-                </div>
+                    <div class="form-group">
+                        <label for="nome_funcionario">Nome:</label>
+                        <input type="text" id="nome_funcionario" name="nome_funcionario"
+                            value="<?= htmlspecialchars($funcionario['nome_funcionario']) ?>" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" id="endereco" name="endereco" value="<?=htmlspecialchars($funcionario['endereco'])?>" required>
-                </div>
+                    <div class="form-group">
+                        <label for="endereco">Endereço:</label>
+                        <input type="text" id="endereco" name="endereco"
+                            value="<?= htmlspecialchars($funcionario['endereco']) ?>" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="telefone">Telefone:</label>
-                    <input type="text" id="telefone" name="telefone" value="<?=htmlspecialchars($funcionario['telefone'])?>" required>
-                </div>
+                    <div class="form-group">
+                        <label for="telefone">Telefone:</label>
+                        <input type="text" id="telefone" name="telefone"
+                            value="<?= htmlspecialchars($funcionario['telefone']) ?>" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" value="<?=htmlspecialchars($funcionario['email'])?>" required>
-                </div>
-              
-                <?php if ($_SESSION['perfil'] === 1): ?>
-                <div class="form-group">
-                    <label for="nova_senha">Nova Senha (deixe em branco para manter a atual):</label>
-                    <input type="password" id="nova_senha" name="nova_senha">
-                </div>
-                <?php endif; ?>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email" value="<?= htmlspecialchars($funcionario['email']) ?>"
+                            required>
+                    </div>
 
-                <div>
-                    <button type="submit" class="btn">Salvar Alterações</button>
-                    <button type="reset" class="btn btn-secondary">Cancelar</button>
-                </div>
-            </form>     
-        </div>
+                    <?php if ($_SESSION['perfil'] === 1): ?>
+                        <div class="form-group">
+                            <label for="nova_senha">Nova Senha (deixe em branco para manter a atual):</label>
+                            <input type="password" id="nova_senha" name="nova_senha">
+                        </div>
+                    <?php endif; ?>
+
+                    <div>
+                        <button type="submit" class="btn">Salvar Alterações</button>
+                        <button type="reset" class="btn btn-secondary">Cancelar</button>
+                    </div>
+                </form>
+            </div>
         <?php endif; ?>
-        
+
         <div class="text-center">
             <a href="principal.php" class="btn btn-secondary">Voltar ao Menu Principal</a>
         </div>
@@ -384,4 +427,5 @@ $opcoes_menu = $permissoes[$id_perfil];
         }
     </script>
 </body>
+
 </html>
