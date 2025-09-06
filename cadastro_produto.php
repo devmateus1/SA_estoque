@@ -8,14 +8,6 @@ if ($_SESSION['perfil'] != 1) {
     exit();
 }
 
-// Obtendo o nome do perfil do usuario logado 
-$id_perfil = $_SESSION['perfil'];
-$sqlPerfil = "SELECT nome_perfil FROM perfil WHERE id_perfil = :id_perfil";
-$stmtPerfil = $pdo->prepare($sqlPerfil);
-$stmtPerfil->bindParam(':id_perfil', $id_perfil);
-$stmtPerfil->execute();
-$perfil = $stmtPerfil->fetch(PDO::FETCH_ASSOC);
-$nome_perfil = $perfil['nome_perfil'];
 
 $permissoes = [
     1 => [
@@ -39,43 +31,8 @@ $permissoes = [
         "Cadastrar" => ["cadastro_cliente.php"],
         "Alterar" => ["alterar_cliente.php"]
     ]
-];
+]
 
-$opcoes_menu = $permissoes[$id_perfil];
-
-$mensagem = '';
-$tipo_mensagem = '';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $titulo = $_POST['titulo'];
-    $autor = $_POST['autor'];
-    $editora = $_POST['editora'];
-    $ano_publicacao = $_POST['ano_publicacao'];
-    $categoria = $_POST['categoria'];
-    $data_cadastro = $_POST['data_cadastro'];
-
-    try {
-        $sql = "INSERT INTO produto (titulo, autor, editora, ano_publicacao, categoria, data_cadastro) VALUES (:titulo, :autor, :editora, :ano_publicacao, :categoria, :data_cadastro)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':titulo', $titulo);
-        $stmt->bindParam(':autor', $autor);
-        $stmt->bindParam(':editora', $editora);
-        $stmt->bindParam(':ano_publicacao', $ano_publicacao);
-        $stmt->bindParam(':categoria', $categoria);
-        $stmt->bindParam(':data_cadastro', $data_cadastro);
-
-        if ($stmt->execute()) {
-            $mensagem = 'Produto cadastrado com sucesso!';
-            $tipo_mensagem = 'sucesso';
-        } else {
-            $mensagem = 'Erro ao cadastrar produto. Tente novamente.';
-            $tipo_mensagem = 'erro';
-        }
-    } catch (PDOException $e) {
-        $mensagem = 'Erro ao cadastrar produto: ' . $e->getMessage();
-        $tipo_mensagem = 'erro';
-    }
-}
 ?>
 
 <!DOCTYPE html>
