@@ -7,7 +7,7 @@ if ($_SESSION['perfil'] != 1) {
     echo "<script>alert('Acesso negado. Você não tem permissão para acessar esta página.'); window.location.href='principal.php';</script>";
     exit();
 }
-
+ 
 
 $permissoes = [
     1 => [
