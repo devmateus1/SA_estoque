@@ -93,26 +93,6 @@ $permissoes = [
         </nav>
     </header>
 
-    <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById('dropdown');
-            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
-        }
-
-        // Fechar dropdown ao clicar fora
-        window.addEventListener('click', function (event) {
-            const dropdown = document.getElementById('dropdown');
-            const button = event.target.closest('button');
-            if (!button || button.onclick !== toggleDropdown()) {
-                dropdown.style.display = 'none';
-            }
-        });
-    </script>
-
     <!-- Main Content -->
     <main
         style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 100px); padding: 2rem;">
@@ -225,7 +205,24 @@ $permissoes = [
             const dataAtual = new Date().toISOString().split('T')[0];
             document.getElementById('data_cadastro').value = dataAtual;
         });
+    
+     <!-- Script para o dropdown -->
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Fecha o dropdown ao clicar fora
+        window.onclick = function (event) {
+            const dropdown = document.getElementById('dropdown');
+            const button = event.target.closest('button');
+
+            if (!button || !button.onclick || !button.onclick.toString().includes('toggleDropdown')) {
+                dropdown.style.display = 'none';
+            }
+        };
     </script>
+
 
 </body>
 
