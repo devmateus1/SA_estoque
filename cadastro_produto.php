@@ -68,16 +68,16 @@ $permissoes = [
                         style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
                         <a href="cadastro_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
-                            Cadastrar Livro</a>
+                            Cadastrar Produto</a>
                         <a href="buscar_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
-                            Listar Livros</a>
+                            Listar Produto</a>
                         <a href="alterar_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
-                            Alterar Livro</a>
+                            Alterar Produto</a>
                         <a href="excluir_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(239, 68, 68, 0.1);">🗑️
-                            Excluir Livro</a>
+                            Excluir Produto</a>
                         <a href="principal.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠
                             Painel Principal</a>
@@ -199,14 +199,8 @@ $permissoes = [
         </div>
     </main>
 
-    <script>
-        // Definir data atual por padrão no campo data_cadastro
-        document.addEventListener('DOMContentLoaded', function () {
-            const dataAtual = new Date().toISOString().split('T')[0];
-            document.getElementById('data_cadastro').value = dataAtual;
-        });
-    
-     <!-- Script para o dropdown -->
+        <!-- Script para o dropdown -->
+        <script>
         function toggleDropdown() {
             const dropdown = document.getElementById('dropdown');
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -221,7 +215,7 @@ $permissoes = [
                 dropdown.style.display = 'none';
             }
         };
-    </script>
+    </script> 
 
 
 </body>

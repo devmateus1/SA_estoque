@@ -367,24 +367,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar'])) {
 <body>
 
     <!-- Header -->
-    <header>
-        <nav>
-            <h1>📚 Sistema de Biblioteca</h1>
-            <div style="display: flex; align-items: center; gap: 1.5rem;">
+    <header
+        style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+        <nav
+            style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h1
+                style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
+                📚 Sistema de Biblioteca
+            </h1>
+
+            <div style="display: flex; align-items: center; gap: 2rem;">
                 <!-- Menu Dropdown -->
-                <div class="dropdown">
-                    <button onclick="toggleDropdown()" class="dropdown-btn">📋 Menu ▼</button>
-                    <div id="dropdown" class="dropdown-content">
-                        <a href="cadastro_cliente.php">👤 Cadastrar Cliente</a>
-                        <a href="buscar_cliente.php">📋 Buscar Cliente</a>
-                        <a href="alterar_cliente.php">✏️ Alterar Cliente</a>
-                        <a href="excluir_cliente.php">🗑️ Excluir Cliente</a>
-                        <a href="principal.php">🏠 Painel Principal</a>
+                <div style="position: relative; display: inline-block;">
+                    <button onclick="toggleDropdown()"
+                        style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                        📋 Menu ▼
+                    </button>
+                    <div id="dropdown"
+                        style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
+                        <a href="cadastro_cliente.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
+                            Cadastrar Cliente</a>
+                        <a href="buscar_cliente.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
+                            Listar Cliente</a>
+                        <a href="alterar_cliente.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
+                            Alterar Cliente</a>
+                        <a href="excluir_cliente.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(239, 68, 68, 0.1);">🗑️
+                            Excluir Cliente</a>
+                        <a href="principal.php"
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠
+                            Painel Principal</a>
                     </div>
                 </div>
-                
+
                 <!-- Logout -->
-                <a href="logout.php" class="logout-btn">🚪 Sair</a>
+                <a href="logout.php"
+                    style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
+                    🚪 Sair
+                </a>
             </div>
         </nav>
     </header>
@@ -455,7 +478,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar'])) {
         </div>
     </main>
 
-    <!-- Script do Dropdown e Máscara -->
+    <!-- Script para o dropdown -->
     <script>
         function toggleDropdown() {
             const dropdown = document.getElementById('dropdown');
@@ -463,13 +486,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['atualizar'])) {
         }
 
         // Fecha o dropdown ao clicar fora
-        window.addEventListener('click', function(event) {
+        window.onclick = function (event) {
             const dropdown = document.getElementById('dropdown');
-            const button = event.target.closest('.dropdown-btn');
-            if (!button && !dropdown.contains(event.target)) {
+            const button = event.target.closest('button');
+
+            if (!button || !button.onclick || !button.onclick.toString().includes('toggleDropdown')) {
                 dropdown.style.display = 'none';
             }
-        });
+        };
 
         // Máscara de telefone
         function mascaraTelefone(campo) {

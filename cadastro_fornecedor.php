@@ -92,6 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body
     style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%); min-height: 100vh; color: #ffffff;">
 
+
     <!-- Header -->
     <header
         style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
@@ -99,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
             <h1
                 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
-                🏢 Sistema de Fornecedores
+                📚 Sistema de Biblioteca
             </h1>
 
             <div style="display: flex; align-items: center; gap: 2rem;">
@@ -112,11 +113,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div id="dropdown"
                         style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
                         <a href="cadastro_fornecedor.php"
-                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏢
+                            style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
                             Cadastrar Fornecedor</a>
                         <a href="buscar_fornecedor.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
-                            Listar Fornecedores</a>
+                            Listar Fornecedor</a>
                         <a href="alterar_fornecedor.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
                             Alterar Fornecedor</a>
@@ -138,25 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </nav>
     </header>
 
-    <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById('dropdown');
-            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
-        }
 
-        // Fechar dropdown ao clicar fora
-        window.addEventListener('click', function (event) {
-            const dropdown = document.getElementById('dropdown');
-            const button = event.target.closest('button');
-            if (!button || button.onclick !== toggleDropdown()) {
-                dropdown.style.display = 'none';
-            }
-        });
-    </script>
 
     <!-- Main Content -->
     <main
@@ -252,28 +235,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </main>
 
-    <script>
-        // Validação de telefone
-        function validarTelefone() {
-            const telefone = document.getElementById('telefone');
-            let valor = telefone.value.replace(/\D/g, '');
+  
+        <!-- Script para o dropdown -->
+        <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
 
-            if (valor.length <= 11) {
-                valor = valor.replace(/(\d{2})(\d)/, '($1) $2');
-                valor = valor.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
-                telefone.value = valor;
+        // Fecha o dropdown ao clicar fora
+        window.onclick = function (event) {
+            const dropdown = document.getElementById('dropdown');
+            const button = event.target.closest('button');
+
+            if (!button || !button.onclick || !button.onclick.toString().includes('toggleDropdown')) {
+                dropdown.style.display = 'none';
             }
-        }
-
-        // Validação de nome do fornecedor (permite apenas letras, acentos e espaços)
-        function validarNomeFornecedor() {
-            const nome = document.getElementById('nome_fornecedor');
-            nome.value = nome.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
-        }
-
-        // Aplicar validações
-        document.getElementById('telefone').addEventListener('input', validarTelefone);
-        document.getElementById('nome_fornecedor').addEventListener('input', validarNomeFornecedor);
+        };
     </script>
 
 </body>
