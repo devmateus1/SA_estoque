@@ -193,15 +193,18 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     encontrado.</p>
             <?php endif; ?>
 
-            <!-- Applied modern button styling with gradient and hover effects -->
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="principal.php"
-                    style="background: linear-gradient(135deg, #6b7280, #9ca3af); color: white; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; display: inline-block; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(0, 0, 0, 0.15)'"
-                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0, 0, 0, 0.1)'">Voltar</a>
-            </div>
         </div>
     </div>
+
+    
+    <center style="margin-top: 30px;">
+            <a href="principal.php"
+                style="display: inline-block; padding: 16px 32px; background: rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; border: 2px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);"
+                onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.2)';"
+                onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                ← Voltar ao Menu Principal
+            </a>
+        </center>
 
     <!-- Script para o dropdown -->
     <script>

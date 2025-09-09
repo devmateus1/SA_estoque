@@ -396,6 +396,16 @@ $permissoes = [
         </div>
     </main>
 
+    
+    <center style="margin-top: 30px;">
+            <a href="principal.php"
+                style="display: inline-block; padding: 16px 32px; background: rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; border: 2px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);"
+                onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.2)';"
+                onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                ← Voltar ao Menu Principal
+            </a>
+        </center>
+
     <!-- Script para o dropdown -->
     <script>
         function toggleDropdown() {

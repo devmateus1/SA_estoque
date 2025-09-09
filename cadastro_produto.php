@@ -186,18 +186,20 @@ $permissoes = [
                 </div>
             </form>
 
-            <!-- Botão Voltar -->
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="principal.php"
-                    style="background: rgba(30, 64, 175, 0.1); color: #1e40af; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; display: inline-block; transition: all 0.3s ease; border: 2px solid rgba(30, 64, 175, 0.2);"
-                    onmouseover="this.style.background='rgba(30, 64, 175, 0.2)'; this.style.transform='translateY(-1px)'"
-                    onmouseout="this.style.background='rgba(30, 64, 175, 0.1)'; this.style.transform='translateY(0)'">
-                    Voltar ao Painel
-                </a>
-            </div>
+
 
         </div>
     </main>
+
+    
+    <center style="margin-top: 30px;">
+            <a href="principal.php"
+                style="display: inline-block; padding: 16px 32px; background: rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; border: 2px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);"
+                onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.2)';"
+                onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                ← Voltar ao Menu Principal
+            </a>
+        </center>
 
         <!-- Script para o dropdown -->
         <script>
