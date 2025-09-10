@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     } else {
         // Login invalido
-        echo "<script>alert('E-mail ou senha inválidos.');window.location.href='login.php';</script>";
+        echo "<script>alert('E-mail ou senha inválidos.');window.location.href='index.php';</script>";
     }
 }
 ?>
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         <h2 style="text-align: center; color: #0f172a; margin-bottom: 32px; font-size: 32px; font-weight: 700; letter-spacing: -1px; background: linear-gradient(135deg, #0f172a 0%, #e5e7eb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Login</h2>
         
-        <form action="login.php" method="POST" style="background-color: #e5e7eb; display: flex; flex-direction: column; gap: 20px; width: 100%; margin-left: -20px;">
+        <form action="index.php" method="POST" style="background-color: #e5e7eb; display: flex; flex-direction: column; gap: 20px; width: 100%; margin-left: -20px;">
             
             <div style="display: flex; flex-direction: column; background:#e5e7eb" weight="600">
                 <label for="email" style="color: #374151; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">E-mail</label>

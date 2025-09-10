@@ -4,7 +4,7 @@ require_once 'conexao.php';
 
 // Garante que o usuário esteja logado
 if (!isset($_SESSION['id_usuario'])) {
-    echo "<script>alert('Acesso negado.');window.location.href='login.php';</script>";
+    echo "<script>alert('Acesso negado.');window.location.href='index.php';</script>";
     exit();
 }
 
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($stmt->execute()) {
             session_destroy(); // Finaliza a sessão do usuário
-            echo "<script>alert('Senha alterada com sucesso! Faça login novamente.'); window.location.href='login.php';</script>";
+            echo "<script>alert('Senha alterada com sucesso! Faça login novamente.'); window.location.href='index.php';</script>";
         } else {
             echo "<script>alert('Erro ao alterar a senha!');</script>";
         }
@@ -39,12 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alterar Senha - Sistema de Biblioteca</title>
+    <title>Alterar Senha</title>
     <style>
         * {
             margin: 0;
@@ -54,231 +53,180 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
             min-height: 100vh;
-            color: #333;
-        }
-
-        header {
-            background: rgba(30, 58, 138, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        nav {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            color: white;
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-btn {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            min-width: 200px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            z-index: 1000;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-top: 0.5rem;
-        }
-
-        .dropdown-content a {
-            color: #1e40af;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            margin: 4px;
-        }
-
-        .dropdown-content a:hover {
-            background: rgba(59, 130, 246, 0.1);
-            transform: translateX(4px);
-        }
-
-        .logout-btn {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            color: white;
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
-        }
-
-        main {
-            display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 100px);
-            padding: 2rem;
+            padding: 20px;
         }
 
         .container {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 2.5rem;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 400px;
             width: 100%;
-            max-width: 600px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
         }
 
         h2 {
-            text-align: center;
             color: #1e3a8a;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
+            margin-bottom: 10px;
+            font-size: 24px;
             font-weight: 600;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         p {
-            text-align: center;
-            margin-bottom: 2rem;
             color: #4b5563;
-            font-size: 1.1rem;
+            margin-bottom: 30px;
+            font-size: 16px;
         }
 
-        .form-group {
+        form {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            gap: 20px;
         }
 
         label {
-            font-weight: 600;
-            color: #1e40af;
-            font-size: 0.9rem;
+            color: #374151;
+            font-weight: 500;
+            text-align: left;
+            margin-bottom: 5px;
+            font-size: 14px;
         }
 
-        input[type="password"],
-        input[type="checkbox"] {
-            padding: 0.875rem;
+        input[type="password"] {
+            padding: 15px 20px;
             border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 16px;
             transition: all 0.3s ease;
-            background: white;
-            color: #1f2937;
+            background: rgba(255, 255, 255, 0.9);
+            outline: none;
         }
 
         input[type="password"]:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            outline: none;
-            transform: translateY(-1px);
-        }
-
-        input[type="checkbox"] {
-            width: auto;
-            margin-right: 0.5rem;
+            transform: translateY(-2px);
         }
 
         .checkbox-label {
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
-            color: #4b5563;
+            justify-content: flex-start;
+            color: #374151;
             font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
         }
 
         button {
-            width: 100%;
-            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 15px 30px;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: linear-gradient(135deg, #1e40af, #3b82f6);
-            color: white;
-            box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            margin-top: 10px;
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(30, 64, 175, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+        }
+
+        button:active {
+            transform: translateY(-1px);
         }
 
         .back-link {
-            display: inline-block;
-            background: rgba(30, 64, 175, 0.1);
-            color: #1e40af;
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(30, 64, 175, 0.2);
-            margin-top: 2rem;
-            text-align: center;
-            width: 100%;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
         }
 
-        .back-link:hover {
-            background: rgba(30, 64, 175, 0.2);
+        .back-link a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .back-link a:hover {
+            background: rgba(59, 130, 246, 0.1);
             transform: translateY(-1px);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+
+            input[type="password"], button {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
-
 <body>
-    <h2> Alterar Senha</h2> :
-    <p> Olá, <strong><?php echo $_SESSION['usuario'];?></strong>. Digite sua nova senha abaixo:</p>
+    <div class="container">
+        <h2>Alterar Senha</h2>
+        <p>Olá, <strong><?php echo htmlspecialchars($_SESSION['usuario']); ?></strong>.<br>Digite sua nova senha abaixo:</p>
 
-    <form action="alterar_senha.php" method = "POST">
-        <label for="nova_senha">Nova Senha</label>
-        <input type="password" id ="nova_senha" name = "nova_senha" required>
+        <form action="alterar_senha.php" method="POST">
+            <div>
+                <label for="nova_senha">Nova Senha</label>
+                <input type="password" name="nova_senha" id="nova_senha" required>
+            </div>
 
-        <label for="confirmar_senha">Confirmar Senha</label>
-        <input type="password" id ="confirmar_senha" name = "confirmar_senha" required>
+            <div>
+                <label for="confirmar_senha">Confirmar Senha</label>
+                <input type="password" name="confirmar_senha" id="confirmar_senha" required>
+            </div>
 
-        <label>
-            <input type="checkbox" onclick="mostrarSenha()"> Mostrar Senha
-        </label>
-        <button type="submit">Salvar Nova Senha </button>
-    </form>
+            <div class="checkbox-label">
+                <input type="checkbox" onclick="mostrarSenha()">
+                Mostrar Senha
+            </div>
 
-    <script> 
+            <button type="submit">Salvar Nova Senha</button>
+        </form>
+
+        <div class="back-link">
+            <a href="index.php">← Voltar para o login</a>
+        </div>
+    </div>
+
+    <script>
         function mostrarSenha() {
             var senha1 = document.getElementById("nova_senha");
             var senha2 = document.getElementById("confirmar_senha");
@@ -287,7 +235,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             senha2.type = tipo;
         }
     </script>
-
 </body>
-
 </html>
