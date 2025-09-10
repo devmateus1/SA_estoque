@@ -302,6 +302,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
 
+        <!-- Script para o dropdown -->
+        <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Fecha o dropdown ao clicar fora
+        window.onclick = function (event) {
+            const dropdown = document.getElementById('dropdown');
+            const button = event.target.closest('button');
+
+            if (!button || !button.onclick || !button.onclick.toString().includes('toggleDropdown')) {
+                dropdown.style.display = 'none';
+            }
+        };
+    </script> 
+
     <!-- Header -->
     <header
         style="background: rgba(30, 58, 138, 0.95); backdrop-filter: blur(10px); padding: 1rem 2rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
@@ -393,10 +411,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </select>
                 </div>
 
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="reset" class="btn btn-secondary">Cancelar</button>
+                </div>
             </form>
 
 
-        </div>
     </main>
 
     <center style="margin-top: 30px;">
@@ -406,25 +427,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                 ← Voltar ao Menu Principal
             </a>
-        </center>   
-
-        <!-- Script para o dropdown -->
-        <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById('dropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Fecha o dropdown ao clicar fora
-        window.onclick = function (event) {
-            const dropdown = document.getElementById('dropdown');
-            const button = event.target.closest('button');
-
-            if (!button || !button.onclick || !button.onclick.toString().includes('toggleDropdown')) {
-                dropdown.style.display = 'none';
-            }
-        };
-    </script>            
+        </center>
+       
 </body>
 
 </html>

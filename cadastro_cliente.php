@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 require_once 'conexao.php';
 
@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -297,7 +298,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
+
 <body>
+
 
 
     <!-- Header -->
@@ -345,6 +348,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </nav>
     </header>
+
+
+
+
     <!-- Main Content -->
     <main>
         <div class="container">
@@ -361,22 +368,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="cadastro_cliente.php" method="POST">
                 <div class="form-group">
                     <label for="nome_cliente">👤 Nome do cliente:</label>
-                    <input type="text" id="nome_cliente" name="nome_cliente" value="<?php echo isset($_POST['nome_cliente']) ? htmlspecialchars($_POST['nome_cliente']) : ''; ?>" required placeholder="Digite o nome completo">
+                    <input type="text" id="nome_cliente" name="nome_cliente"
+                        value="<?php echo isset($_POST['nome_cliente']) ? htmlspecialchars($_POST['nome_cliente']) : ''; ?>"
+                        required placeholder="Digite o nome completo">
                 </div>
 
                 <div class="form-group">
                     <label for="endereco">📍 Endereço:</label>
-                    <input type="text" id="endereco" name="endereco" value="<?php echo isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : ''; ?>" required placeholder="Ex: Rua das Flores, 123">
+                    <input type="text" id="endereco" name="endereco"
+                        value="<?php echo isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : ''; ?>"
+                        required placeholder="Ex: Rua das Flores, 123">
                 </div>
 
                 <div class="form-group">
                     <label for="telefone">📞 Telefone:</label>
-                    <input type="text" id="telefone" name="telefone" value="<?php echo isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : ''; ?>" required maxlength="15" placeholder="(11) 99999-9999" onkeyup="mascaraTelefone(this)">
+                    <input type="text" id="telefone" name="telefone"
+                        value="<?php echo isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : ''; ?>"
+                        required maxlength="15" placeholder="(11) 99999-9999" onkeyup="mascaraTelefone(this)">
                 </div>
 
                 <div class="form-group">
                     <label for="email">📧 Email:</label>
-                    <input type="email" id="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required placeholder="cliente@exemplo.com">
+                    <input type="email" id="email" name="email"
+                        value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required
+                        placeholder="cliente@exemplo.com">
                 </div>
 
                 <!-- Botões -->
@@ -388,16 +403,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         </div>
     </main>
-
-    
-    <center style="margin-top: 30px;">
-            <a href="principal.php"
-                style="display: inline-block; padding: 16px 32px; background: rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; border: 2px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);"
-                onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.2)';"
-                onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                ← Voltar ao Menu Principal
-            </a>
-        </center>
 
     <!-- Script para o dropdown -->
     <script>
@@ -417,5 +422,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         };
     </script>
 
+
+    <center style="margin-top: 30px;">
+        <a href="principal.php"
+            style="display: inline-block; padding: 16px 32px; background: rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; border: 2px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);"
+            onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.2)';"
+            onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+            ← Voltar ao Menu Principal
+        </a>
+    </center>
+
+
+
 </body>
+
 </html>
