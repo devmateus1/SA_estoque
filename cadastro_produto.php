@@ -41,7 +41,7 @@ $permissoes = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Produto</title>
+    <title>Cadastrar Livro</title>
 </head>
 
 <body
@@ -68,16 +68,16 @@ $permissoes = [
                         style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
                         <a href="cadastro_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
-                            Cadastrar Produto</a>
+                            Cadastrar Livro</a>
                         <a href="buscar_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
-                            Listar Produto</a>
+                            Listar Livro</a>
                         <a href="alterar_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
-                            Alterar Produto</a>
+                            Alterar Livro</a>
                         <a href="excluir_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(239, 68, 68, 0.1);">🗑️
-                            Excluir Produto</a>
+                            Excluir Livro</a>
                         <a href="principal.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠
                             Painel Principal</a>
@@ -118,7 +118,7 @@ $permissoes = [
 
                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label for="titulo" style="font-weight: 600; color: #1e40af; font-size: 0.9rem;">Título do
-                        produto:</label>
+                        Livro:</label>
                     <input type="text" id="titulo" name="titulo" required
                         style="padding: 0.875rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; background: white; color: #1f2937;"
                         onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59, 130, 246, 0.1)'; this.style.transform='translateY(-1px)';"
@@ -174,7 +174,7 @@ $permissoes = [
                         style="flex: 1; padding: 1rem 2rem; background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(30, 64, 175, 0.3);"
                         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 30px rgba(30, 64, 175, 0.4)'"
                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(30, 64, 175, 0.3)'">
-                        Salvar Produto
+                        Salvar Livro
                     </button>
 
                     <button type="reset"

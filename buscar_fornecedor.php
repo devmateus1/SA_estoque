@@ -320,10 +320,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
                 <div class="dropdown">
                     <button onclick="toggleDropdown()" class="dropdown-btn">📋 Menu ▼</button>
                     <div id="dropdown" class="dropdown-content">
-                        <a href="cadastro_fornecedor.php">📚 Cadastrar Fornecedor</a>
-                        <a href="buscar_fornecedor.php">📋 Listar Fornecedor</a>
-                        <a href="alterar_fornecedor.php">✏️ Alterar Fornecedor</a>
-                        <a href="excluir_fornecedor.php" style="background: rgba(239, 68, 68, 0.1);">🗑️ Excluir Fornecedor</a>
+                        <a href="cadastro_fornecedor.php">📚 Cadastrar Editora</a>
+                        <a href="buscar_fornecedor.php">📋 Listar Editora</a>
+                        <a href="alterar_fornecedor.php">✏️ Alterar Editora</a>
+                        <a href="excluir_fornecedor.php" style="background: rgba(239, 68, 68, 0.1);">🗑️ Excluir Editora</a>
                         <a href="principal.php">🏠 Painel Principal</a>
                     </div>
                 </div>
@@ -349,7 +349,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
             <!-- Formulário de Busca -->
             <form action="buscar_fornecedor.php" method="POST">
                 <div class="form-group">
-                    <label for="termo_busca">Digite o nome, telefone, email ou contato do fornecedor:</label>
+                    <label for="termo_busca">Digite o nome, telefone, email ou contato da editora:</label>
                     <input type="text" id="termo_busca" name="termo_busca" value="<?php echo htmlspecialchars($termo_busca); ?>" placeholder="Ex: Livraria Central, (11) 99999-9999, contato@livraria.com, João Silva" required>
                 </div>
                 <button type="submit" name="buscar" class="btn-buscar">🔍 Buscar Fornecedor</button>

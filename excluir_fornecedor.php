@@ -81,7 +81,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excluir Fornecedor</title>
+    <title>Excluir Editora</title>
 </head>
 
 <body
@@ -108,16 +108,16 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
                         <a href="cadastro_fornecedor.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
-                            Cadastrar Fornecedor</a>
+                            Cadastrar Editora</a>
                         <a href="buscar_fornecedor.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
-                            Listar Fornecedor</a>
+                            Listar Editora</a>
                         <a href="alterar_fornecedor.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
-                            Alterar Fornecedor</a>
+                            Alterar Editora</a>
                         <a href="excluir_fornecedor.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(239, 68, 68, 0.1);">🗑️
-                            Excluir Fornecedor</a>
+                            Excluir Editora</a>
                         <a href="principal.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠
                             Painel Principal</a>
@@ -141,7 +141,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             <!-- Applied modern title styling with text shadow -->
             <h2
                 style="text-align: center; color: #1e3a8a; margin-bottom: 2rem; font-size: 2rem; font-weight: 600; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);">
-                Excluir Fornecedor</h2>
+                Excluir Editora</h2>
 
             <?php if (!empty($fornecedores)): ?>
                 <!-- Applied modern table styling with hover effects -->
@@ -189,7 +189,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     </table>
                 </div>
             <?php else: ?>
-                <p style="text-align: center; color: #6b7280; font-size: 1.1rem; margin: 2rem 0;">Nenhum Fornecedor
+                <p style="text-align: center; color: #6b7280; font-size: 1.1rem; margin: 2rem 0;">Nenhum Editora
                     encontrado.</p>
             <?php endif; ?>
 

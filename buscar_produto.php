@@ -319,16 +319,16 @@ $permissoes = [
                         style="display: none; position: absolute; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); min-width: 200px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); border-radius: 12px; z-index: 1000; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;">
                         <a href="cadastro_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📚
-                            Cadastrar Produto</a>
+                            Cadastrar Livro</a>
                         <a href="buscar_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">📋
-                            Listar Produto</a>
+                            Listar Livro</a>
                         <a href="alterar_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">✏️
-                            Alterar Produto</a>
+                            Alterar Livro</a>
                         <a href="excluir_produto.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px; background: rgba(239, 68, 68, 0.1);">🗑️
-                            Excluir Produto</a>
+                            Excluir Livro</a>
                         <a href="principal.php"
                             style="color: #1e40af; padding: 12px 16px; text-decoration: none; display: block; transition: all 0.3s ease; border-radius: 8px; margin: 4px;">🏠
                             Painel Principal</a>

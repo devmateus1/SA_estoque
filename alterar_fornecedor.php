@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alterar Fornecedor</title>
+    <title>Alterar Editora</title>
     <style>
         * {
             margin: 0;
@@ -310,10 +310,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="dropdown">
                     <button onclick="toggleDropdown()" class="dropdown-btn">📋 Menu ▼</button>
                     <div id="dropdown" class="dropdown-content">
-                        <a href="cadastro_fornecedor.php">📚 Cadastrar Fornecedor</a>
-                        <a href="buscar_fornecedor.php">📋 Listar Fornecedor</a>
-                        <a href="alterar_fornecedor.php">✏️ Alterar Fornecedor</a>
-                        <a href="excluir_fornecedor.php" style="background: rgba(239, 68, 68, 0.1);">🗑️ Excluir Fornecedor</a>
+                        <a href="cadastro_fornecedor.php">📚 Cadastrar Editora</a>
+                        <a href="buscar_fornecedor.php">📋 Listar Editora</a>
+                        <a href="alterar_fornecedor.php">✏️ Alterar Editora</a>
+                        <a href="excluir_fornecedor.php" style="background: rgba(239, 68, 68, 0.1);">🗑️ Excluir Editora</a>
                         <a href="principal.php">🏠 Painel Principal</a>
                     </div>
                 </div>
@@ -327,15 +327,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Main Content -->
     <main>
         <div class="container">
-            <h2>✏️ Alterar Fornecedor</h2>
+            <h2>✏️ Alterar Editora</h2>
 
             <!-- Formulário para buscar fornecedor -->
             <form action="alterar_fornecedor.php" method="POST">
                 <div class="form-group">
-                    <label for="busca_fornecedor">Digite o ID ou Nome do fornecedor:</label>
+                    <label for="busca_fornecedor">Digite o ID ou Nome do Editora:</label>
                     <input type="text" id="busca_fornecedor" name="busca_fornecedor" required onkeyup="buscarSugestoes()">
                 </div>
-                <button type="submit" class="btn-buscar">🔍 Buscar Fornecedor</button>
+                <button type="submit" class="btn-buscar">🔍 Buscar Editora</button>
             </form>
 
             <!-- Formulário de alteração (aparece após busca) -->
@@ -368,7 +368,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" id="contato" name="contato" value="<?= htmlspecialchars($fornecedor['contato']) ?>" required>
                     </div>
 
-                    <button type="submit" class="btn-alterar">✅ Alterar Fornecedor</button>
+                    <button type="submit" class="btn-alterar">✅ Alterar Editora</button>
                     <button type="reset" class="btn-cancelar">❌ Cancelar</button>
                 </form>
             <?php endif; ?>
