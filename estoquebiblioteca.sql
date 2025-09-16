@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `senai_login`
 --
-CREATE DATABASE IF NOT EXISTS `estoquebiblioteca` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `estoquebiblioteca` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `estoquebiblioteca`;
 
 -- --------------------------------------------------------
@@ -34,7 +34,7 @@ CREATE TABLE `produto` (
     ano_publicacao INT,
     categoria VARCHAR(50),
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Inserir dados em produto
 TRUNCATE TABLE produto;
@@ -54,15 +54,15 @@ INSERT INTO produto (titulo, autor, isbn, editora, ano_publicacao, categoria) VA
 DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE IF NOT EXISTS `cliente` (
   `id_cliente` int NOT NULL AUTO_INCREMENT,
-  `nome_cliente` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `endereco` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome_cliente` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `endereco` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `telefone` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `id_funcionario_responsavel` int DEFAULT NULL,
   PRIMARY KEY (`id_cliente`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_cliente_funcionario` (`id_funcionario_responsavel`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `cliente`
@@ -82,16 +82,16 @@ INSERT INTO `cliente` (`id_cliente`, `nome_cliente`, `endereco`, `telefone`, `em
 DROP TABLE IF EXISTS `fornecedor`;
 CREATE TABLE IF NOT EXISTS `fornecedor` (
   `id_fornecedor` int NOT NULL AUTO_INCREMENT,
-  `nome_fornecedor` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `endereco` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contato` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome_fornecedor` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `endereco` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `telefone` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `contato` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `id_funcionario_registro` int DEFAULT NULL,
   PRIMARY KEY (`id_fornecedor`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_fornecedor_funcionario` (`id_funcionario_registro`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `fornecedor`
@@ -114,7 +114,7 @@ CREATE TABLE `fornecedor_produto` (
   KEY `id_produto` (`id_produto`),
   CONSTRAINT `fornecedor_produto_ibfk_1` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id_fornecedor`) ON DELETE CASCADE,
   CONSTRAINT `fornecedor_produto_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id_produto`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dados
 INSERT INTO `fornecedor_produto` (`id_fornecedor`, `id_produto`) VALUES
@@ -132,13 +132,13 @@ INSERT INTO `fornecedor_produto` (`id_fornecedor`, `id_produto`) VALUES
 DROP TABLE IF EXISTS `funcionario`;
 CREATE TABLE IF NOT EXISTS `funcionario` (
   `id_funcionario` int NOT NULL AUTO_INCREMENT,
-  `nome_funcionario` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `endereco` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome_funcionario` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `endereco` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `telefone` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_funcionario`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `funcionario`
@@ -160,10 +160,10 @@ INSERT INTO `funcionario` (`id_funcionario`, `nome_funcionario`, `endereco`, `te
 DROP TABLE IF EXISTS `perfil`;
 CREATE TABLE IF NOT EXISTS `perfil` (
   `id_perfil` int NOT NULL AUTO_INCREMENT,
-  `nome_perfil` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nome_perfil` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_perfil`),
   UNIQUE KEY `nome_perfil` (`nome_perfil`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `perfil`
@@ -186,15 +186,15 @@ INSERT INTO `perfil` (`id_perfil`, `nome_perfil`) VALUES
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id_usuario` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `senha` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nome` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `senha` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `id_perfil` int DEFAULT NULL,
   `senha_temporaria` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `email` (`email`),
   KEY `id_perfil` (`id_perfil`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `usuario`
