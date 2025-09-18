@@ -101,7 +101,7 @@ $permissoes = [
 
             <h2
                 style="text-align: center; color: #1e3a8a; margin-bottom: 2rem; font-size: 2rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                Cadastrar Produto
+                Cadastrar Livro
             </h2>
 
             <!-- Mensagens -->

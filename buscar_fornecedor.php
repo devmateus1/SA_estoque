@@ -2,7 +2,7 @@
 session_start();
 require_once 'conexao.php';
 
-// Verifica permissão (apenas Admin e Gerente podem buscar fornecedor — perfis 1 e 3)
+// Verifica permissão (apenas Admin e Gerente podem buscar Editora — perfis 1 e 3)
 if (!in_array($_SESSION['perfil'], [1, 3])) {
     echo "Acesso negado.";
     exit();
@@ -23,13 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
         $tipo_mensagem = 'erro';
     } else {
         try {
-            $sql = "SELECT id_fornecedor, nome_fornecedor, endereco, telefone, email, contato 
-                    FROM fornecedor 
-                    WHERE nome_fornecedor LIKE :termo 
+            $sql = "SELECT id_Editora, nome_Editora, endereco, telefone, email, contato 
+                    FROM Editora 
+                    WHERE nome_Editora LIKE :termo 
                        OR telefone LIKE :termo 
                        OR email LIKE :termo 
                        OR contato LIKE :termo
-                    ORDER BY nome_fornecedor ASC";
+                    ORDER BY nome_Editora ASC";
             $stmt = $pdo->prepare($sql);
             $termo = "%{$termo_busca}%";
             $stmt->bindParam(':termo', $termo);
@@ -37,11 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
             if ($stmt->execute()) {
                 $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if (count($resultados) === 0) {
-                    $mensagem = 'Nenhum fornecedor encontrado.';
+                    $mensagem = 'Nenhum Editora encontrado.';
                     $tipo_mensagem = 'erro';
                 }
             } else {
-                $mensagem = 'Erro ao buscar fornecedores.';
+                $mensagem = 'Erro ao buscar Editoraes.';
                 $tipo_mensagem = 'erro';
             }
         } catch (PDOException $e) {
@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Fornecedor - Sistema de Biblioteca</title>
+    <title>Buscar Editora - Sistema de Biblioteca</title>
     <style>
         * {
             margin: 0;
@@ -320,10 +320,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
                 <div class="dropdown">
                     <button onclick="toggleDropdown()" class="dropdown-btn">📋 Menu ▼</button>
                     <div id="dropdown" class="dropdown-content">
-                        <a href="cadastro_fornecedor.php">📚 Cadastrar Editora</a>
-                        <a href="buscar_fornecedor.php">📋 Listar Editora</a>
-                        <a href="alterar_fornecedor.php">✏️ Alterar Editora</a>
-                        <a href="excluir_fornecedor.php" style="background: rgba(239, 68, 68, 0.1);">🗑️ Excluir Editora</a>
+                        <a href="cadastro_Editora.php">📚 Cadastrar Editora</a>
+                        <a href="buscar_Editora.php">📋 Listar Editora</a>
+                        <a href="alterar_Editora.php">✏️ Alterar Editora</a>
+                        <a href="excluir_Editora.php" style="background: rgba(239, 68, 68, 0.1);">🗑️ Excluir Editora</a>
                         <a href="principal.php">🏠 Painel Principal</a>
                     </div>
                 </div>
@@ -337,7 +337,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
     <!-- Main Content -->
     <main>
         <div class="container">
-            <h2>🔍 Buscar Fornecedor</h2>
+            <h2>🔍 Buscar Editora</h2>
 
             <!-- Mensagem de feedback -->
             <?php if (!empty($mensagem)): ?>
@@ -347,12 +347,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
             <?php endif; ?>
 
             <!-- Formulário de Busca -->
-            <form action="buscar_fornecedor.php" method="POST">
+            <form action="buscar_Editora.php" method="POST">
                 <div class="form-group">
                     <label for="termo_busca">Digite o nome, telefone, email ou contato da editora:</label>
                     <input type="text" id="termo_busca" name="termo_busca" value="<?php echo htmlspecialchars($termo_busca); ?>" placeholder="Ex: Livraria Central, (11) 99999-9999, contato@livraria.com, João Silva" required>
                 </div>
-                <button type="submit" name="buscar" class="btn-buscar">🔍 Buscar Fornecedor</button>
+                <button type="submit" name="buscar" class="btn-buscar">🔍 Buscar Editora</button>
             </form>
 
             <!-- Resultados da Busca -->
@@ -370,14 +370,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($resultados as $fornecedor): ?>
+                        <?php foreach ($resultados as $Editora): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($fornecedor['id_fornecedor']); ?></td>
-                                <td><?php echo htmlspecialchars($fornecedor['nome_fornecedor']); ?></td>
-                                <td><?php echo htmlspecialchars($fornecedor['endereco']); ?></td>
-                                <td><?php echo htmlspecialchars($fornecedor['telefone']); ?></td>
-                                <td><?php echo htmlspecialchars($fornecedor['email']); ?></td>
-                                <td><?php echo htmlspecialchars($fornecedor['contato']); ?></td>
+                                <td><?php echo htmlspecialchars($Editora['id_Editora']); ?></td>
+                                <td><?php echo htmlspecialchars($Editora['nome_Editora']); ?></td>
+                                <td><?php echo htmlspecialchars($Editora['endereco']); ?></td>
+                                <td><?php echo htmlspecialchars($Editora['telefone']); ?></td>
+                                <td><?php echo htmlspecialchars($Editora['email']); ?></td>
+                                <td><?php echo htmlspecialchars($Editora['contato']); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
